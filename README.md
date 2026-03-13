@@ -6,6 +6,9 @@ Smooth animations, customizable themes, and flexible API make it ideal for **das
 **GitHub Repository:**  
 https://github.com/Navnit73/vue-speedometer-gauge-chart
 
+**Docs:**  
+https://vue-speedometer-gauge-chart.vercel.app/docs
+
 ![Vue](https://img.shields.io/badge/Vue-3.x-42b883)
 ![TypeScript](https://img.shields.io/badge/TypeScript-Ready-3178c6)
 ![Size](https://img.shields.io/badge/Size-~15KB_gzip-green)

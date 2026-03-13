@@ -1,0 +1,52 @@
+{
+  "name": "vue-advanced-speedometer-pro",
+  "version": "2.0.0",
+  "description": "A high-quality, advanced Vue 3 speedometer/gauge chart component with multiple gauge types, themes, animations, and a rich developer API.",
+  "keywords": [
+    "vue",
+    "vue3",
+    "speedometer",
+    "gauge",
+    "chart",
+    "dashboard",
+    "svg",
+    "component"
+  ],
+  "author": "navnitrai5389@gmail.com",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/vue-advanced-speedometer.cjs",
+  "module": "./dist/vue-advanced-speedometer.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/vue-advanced-speedometer.mjs",
+      "require": "./dist/vue-advanced-speedometer.cjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/style.css": "./dist/style.css"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:lib": "vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.0",
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0",
+    "vite-plugin-dts": "^4.0.0",
+    "vue": "^3.5.0",
+    "vue-tsc": "^2.1.0"
+  },
+  "dependencies": {
+    "vue-router": "^4.6.4"
+  }
+}

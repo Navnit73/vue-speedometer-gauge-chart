@@ -362,6 +362,28 @@
       </div>
     </section>
 
+    <!-- Developer Info -->
+    <section class="section developer-section">
+      <div class="developer-card">
+        <div class="developer-avatar">
+          <span class="avatar-initial">N</span>
+        </div>
+        <h2 class="developer-name">Navnit Rai</h2>
+        <p class="developer-role">Creator & Maintainer</p>
+        <div class="developer-links">
+          <a href="mailto:navnitrai5389@gmail.com" class="dev-link dev-link-email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span>navnitrai5389@gmail.com</span>
+          </a>
+          <a href="https://github.com/Navnit73/" target="_blank" rel="noopener" class="dev-link dev-link-github">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>github.com/Navnit73</span>
+          </a>
+        </div>
+        <p class="developer-tagline">Building open-source tools for the Vue ecosystem 🚀</p>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
       <p>Vue Advanced Speedometer v2.0.0 · Lifetime License: <strong>$5</strong> · Built with ❤️ and Vue 3</p>
@@ -896,6 +918,166 @@ body {
   padding: 20px;
 }
 
+/* ---- Developer Section ---- */
+.developer-section {
+  margin-top: 48px;
+  padding: 56px 24px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #1a1a2e 50%, #16213e 100%);
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.developer-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.theme-light .developer-section,
+.theme-material .developer-section,
+.theme-minimal .developer-section {
+  background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 50%, #2563eb 100%);
+  border: none;
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
+
+.theme-light .developer-section::before,
+.theme-material .developer-section::before,
+.theme-minimal .developer-section::before {
+  background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+.theme-light .developer-name,
+.theme-material .developer-name,
+.theme-minimal .developer-name,
+.theme-light .avatar-initial,
+.theme-material .avatar-initial,
+.theme-minimal .avatar-initial {
+  color: #ffffff;
+}
+
+.developer-card {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.developer-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  animation: avatar-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes avatar-glow {
+  from { box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3); }
+  to { box-shadow: 0 8px 40px rgba(118, 75, 162, 0.4); }
+}
+
+.avatar-initial {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+}
+
+.developer-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.developer-role {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 16px;
+  font-weight: 500;
+}
+
+.developer-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dev-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.dev-link-email {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a5b4fc;
+}
+
+.dev-link-email:hover {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+}
+
+.theme-light .dev-link-email,
+.theme-material .dev-link-email,
+.theme-minimal .dev-link-email {
+  color: #ffffff;
+}
+
+.dev-link-github {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+}
+
+.dev-link-github:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+}
+
+.theme-light .dev-link-github,
+.theme-material .dev-link-github,
+.theme-minimal .dev-link-github {
+  color: #ffffff;
+}
+
+.developer-tagline {
+  margin: 16px 0 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+}
+
 /* ---- Footer ---- */
 .footer {
   text-align: center;
@@ -905,11 +1087,231 @@ body {
 }
 
 /* ---- Responsive ---- */
-@media (max-width: 640px) {
-  .hero-title { font-size: 1.6rem; }
-  .controls-bar { flex-direction: column; gap: 14px; }
-  .slider { width: 100%; }
-  .three-col, .two-col { grid-template-columns: 1fr; }
-  .gauge-card-wide { grid-column: span 1; }
+
+/* --- Tablet (≤ 1024px) --- */
+@media (max-width: 1024px) {
+  .section {
+    padding: 32px 20px 0;
+  }
+
+  .controls-bar {
+    gap: 16px;
+    padding: 18px 20px;
+  }
+
+  .slider {
+    width: 140px;
+  }
+
+  .two-col {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* --- Small Tablet / Large Phone (≤ 768px) --- */
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 20px 36px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .controls-bar {
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px 16px;
+    align-items: stretch;
+  }
+
+  .control-group {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .slider {
+    width: 100%;
+    flex: 1;
+  }
+
+  .theme-pills {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .select-input {
+    flex: 1;
+  }
+
+  .section {
+    padding: 28px 16px 0;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+  }
+
+  .three-col,
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .gauge-card-wide {
+    grid-column: span 1;
+  }
+
+  .gauge-card {
+    padding: 18px;
+  }
+
+  /* Event log */
+  .event-log {
+    padding: 12px;
+    font-size: 0.78rem;
+  }
+
+  .log-entry {
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .log-type {
+    min-width: unset;
+    font-size: 0.75rem;
+  }
+
+  /* Export */
+  .export-row {
+    flex-direction: column;
+  }
+
+  .export-row .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 32px 16px;
+    font-size: 0.8rem;
+  }
+
+  /* Mini controls (dual needle sliders) */
+  .mini-control {
+    flex-wrap: wrap;
+  }
+
+  .card-controls {
+    gap: 10px;
+  }
+}
+
+/* --- Phone (≤ 480px) --- */
+@media (max-width: 480px) {
+  .hero {
+    padding: 28px 14px 24px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 14px;
+  }
+
+  .hero-badges {
+    gap: 6px;
+  }
+
+  .badge {
+    font-size: 0.68rem;
+    padding: 3px 10px;
+  }
+
+  .controls-bar {
+    padding: 14px 12px;
+    gap: 12px;
+  }
+
+  .control-label {
+    font-size: 0.72rem;
+  }
+
+  .control-value {
+    font-size: 0.95rem;
+  }
+
+  .theme-pill {
+    font-size: 0.7rem;
+    padding: 4px 10px;
+  }
+
+  .btn {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+  }
+
+  .section {
+    padding: 20px 10px 0;
+  }
+
+  .section-title {
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+  }
+
+  .gauge-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .card-label {
+    font-size: 0.78rem;
+  }
+
+  .card-desc {
+    font-size: 0.72rem;
+  }
+
+  /* V2 section */
+  .v2-badge {
+    font-size: 0.68rem;
+    padding: 3px 10px;
+  }
+
+  /* Custom center slot */
+  .custom-center-value {
+    font-size: 22px;
+  }
+
+  .custom-center-label {
+    font-size: 10px;
+  }
+
+  /* Event log */
+  .event-log {
+    max-height: 160px;
+    padding: 10px;
+    font-size: 0.72rem;
+    border-radius: 10px;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 24px 10px;
+    font-size: 0.75rem;
+  }
+
+  .footer p {
+    line-height: 1.6;
+  }
 }
 </style>

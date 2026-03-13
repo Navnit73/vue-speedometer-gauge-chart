@@ -565,6 +565,28 @@ import 'vue-advanced-speedometer/dist/style.css'
 
     </main>
 
+    <!-- Developer Info -->
+    <section class="developer-section">
+      <div class="developer-card">
+        <div class="developer-avatar">
+          <span class="avatar-initial">N</span>
+        </div>
+        <h2 class="developer-name">Navnit Rai</h2>
+        <p class="developer-role">Creator & Maintainer</p>
+        <div class="developer-links">
+          <a href="mailto:navnitrai5389@gmail.com" class="dev-link dev-link-email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span>navnitrai5389@gmail.com</span>
+          </a>
+          <a href="https://github.com/Navnit73/" target="_blank" rel="noopener" class="dev-link dev-link-github">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <span>github.com/Navnit73</span>
+          </a>
+        </div>
+        <p class="developer-tagline">Building open-source tools for the Vue ecosystem 🚀</p>
+      </div>
+    </section>
+
     <!-- Footer -->
     <footer class="docs-footer">
       <div class="footer-inner">
@@ -1645,6 +1667,129 @@ function triggerEventDemo() {
   margin: 0 0 12px;
 }
 
+/* ============== Developer Section ============== */
+.developer-section {
+  margin-top: 48px;
+  padding: 56px 24px;
+  background: linear-gradient(135deg, #1e3a5f 0%, #1a1a2e 50%, #16213e 100%);
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.developer-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.developer-card {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.developer-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  animation: avatar-glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes avatar-glow {
+  from { box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3); }
+  to { box-shadow: 0 8px 40px rgba(118, 75, 162, 0.4); }
+}
+
+.avatar-initial {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+}
+
+.developer-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.developer-role {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 16px;
+  font-weight: 500;
+}
+
+.developer-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dev-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.dev-link-email {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a5b4fc;
+}
+
+.dev-link-email:hover {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+}
+
+.dev-link-github {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+}
+
+.dev-link-github:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+}
+
+.developer-tagline {
+  margin: 16px 0 0;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.4);
+  font-style: italic;
+}
+
 /* ============== Footer ============== */
 .docs-footer {
   margin-top: 64px;
@@ -1668,28 +1813,105 @@ function triggerEventDemo() {
 }
 
 /* ============== Responsive ============== */
-@media (max-width: 768px) {
-  .docs-header {
-    padding: 40px 24px 36px;
+
+/* --- Tablet (≤ 1024px) --- */
+@media (max-width: 1024px) {
+  .speedometer-docs {
+    padding: 0 16px 48px;
   }
 
-  .docs-header h1 {
+  .docs-header {
+    padding: 44px 28px 40px;
+  }
+
+  .header-content h1 {
+    font-size: 2.2rem;
+  }
+
+  .playground-grid {
+    grid-template-columns: 260px 1fr;
+  }
+
+  .examples-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+
+  .methods-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+/* --- Small Tablet / Large Phone (≤ 768px) --- */
+@media (max-width: 768px) {
+  .speedometer-docs {
+    padding: 0 12px 40px;
+  }
+
+  .docs-header {
+    padding: 36px 20px 32px;
+    border-radius: 0 0 16px 16px;
+    margin-bottom: 24px;
+  }
+
+  .header-content h1 {
+    font-size: 1.7rem;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .header-icon {
     font-size: 1.8rem;
   }
 
+  .subtitle {
+    font-size: 0.92rem;
+  }
+
+  .badge-group {
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  /* Navigation — horizontal scroll on mobile */
   .docs-nav {
     border-radius: 14px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    margin-bottom: 36px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .docs-nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav-link {
     font-size: 0.8rem;
     padding: 6px 12px;
+    flex-shrink: 0;
   }
 
+  /* Sections */
+  .docs-section {
+    margin-bottom: 48px;
+  }
+
+  .docs-section h2 {
+    font-size: 1.4rem;
+  }
+
+  .section-desc {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  /* Setup columns */
   .setup-tabs-content {
     grid-template-columns: 1fr;
   }
 
+  /* Playground */
   .playground-grid {
     grid-template-columns: 1fr;
   }
@@ -1699,6 +1921,14 @@ function triggerEventDemo() {
     border-bottom: 1px solid var(--border);
   }
 
+  .playground-header {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+    padding: 14px 18px;
+  }
+
+  /* Grids */
   .example-grid,
   .examples-grid {
     grid-template-columns: 1fr;
@@ -1709,9 +1939,237 @@ function triggerEventDemo() {
     grid-template-columns: 1fr;
   }
 
+  /* Props table — make it scroll horizontally */
+  .props-table-container {
+    margin-left: -12px;
+    margin-right: -12px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .props-table th,
+  .props-table td {
+    padding: 10px 12px;
+    font-size: 0.82rem;
+  }
+
+  /* Events */
   .event-demo {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .event-header {
+    gap: 8px;
+  }
+
+  /* Code blocks */
+  .code-block {
+    padding: 14px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+  }
+
+  .code-block code {
+    font-size: 0.8rem;
+  }
+
+  /* Footer */
+  .footer-inner {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .footer-divider {
+    display: none;
+  }
+
+  /* V2 controls */
+  .v2-controls label {
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.8rem;
+  }
+}
+
+/* --- Phone (≤ 480px) --- */
+@media (max-width: 480px) {
+  .speedometer-docs {
+    padding: 0 8px 32px;
+  }
+
+  .docs-header {
+    padding: 28px 16px 24px;
+    border-radius: 0 0 12px 12px;
+    margin-bottom: 16px;
+  }
+
+  .header-content h1 {
+    font-size: 1.35rem;
+  }
+
+  .header-badge {
+    font-size: 0.7rem;
+    padding: 3px 10px;
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    padding: 3px 9px;
+  }
+
+  .docs-nav {
+    margin-bottom: 24px;
+    padding: 4px;
+  }
+
+  .nav-link {
+    font-size: 0.72rem;
+    padding: 5px 10px;
+  }
+
+  .docs-section h2 {
+    font-size: 1.2rem;
+  }
+
+  .section-desc {
+    font-size: 0.84rem;
+  }
+
+  /* Example cards */
+  .example-card {
+    padding: 14px;
+  }
+
+  .gauge-preview {
+    min-height: 120px;
+  }
+
+  /* Playground */
+  .playground-preview {
+    padding: 20px 12px;
+    min-height: 200px;
+  }
+
+  .playground-controls {
+    padding: 16px;
+  }
+
+  /* Slot card */
+  .slot-card {
+    padding: 16px;
+  }
+
+  .slot-prop-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  /* Method card */
+  .method-card {
+    padding: 16px;
+  }
+
+  .method-demo {
+    padding: 12px;
+  }
+
+  /* Event card */
+  .event-card {
+    padding: 14px;
+  }
+
+  /* Type card */
+  .type-card {
+    padding: 14px;
+  }
+
+  /* Code blocks */
+  .code-block {
+    padding: 10px 10px;
+    border-radius: 8px;
+    margin: 8px 0;
+  }
+
+  .code-block code {
+    font-size: 0.72rem;
+    line-height: 1.5;
+  }
+
+  .code-lang {
+    font-size: 0.6rem;
+    top: 6px;
+    right: 40px;
+  }
+
+  .copy-btn {
+    padding: 3px 8px;
+    font-size: 0.68rem;
+    top: 6px;
+    right: 8px;
+  }
+
+  /* Install tabs */
+  .install-tabs {
+    width: 100%;
+  }
+
+  .tab-btn {
+    flex: 1;
+    text-align: center;
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+
+  /* Props table — stack on small phones */
+  .props-table thead {
+    display: none;
+  }
+
+  .props-table,
+  .props-table tbody,
+  .props-table tr,
+  .props-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .props-table tr {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .props-table td {
+    padding: 4px 0;
+    border-bottom: none;
+    font-size: 0.82rem;
+  }
+
+  .props-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* Footer */
+  .docs-footer {
+    margin-top: 32px;
+    padding: 16px 8px;
+  }
+
+  .footer-inner {
+    font-size: 0.78rem;
   }
 }
 </style>

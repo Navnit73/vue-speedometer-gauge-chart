@@ -3,16 +3,20 @@ import vue from '@vitejs/plugin-vue'
 import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 
+const isDemo = process.env.BUILD_DEMO === 'true'
+
 export default defineConfig({
   plugins: [
     vue(),
-    dts({
+    ...(isDemo ? [] : [dts({
       include: ['src/**/*.ts', 'src/**/*.vue'],
       outDir: 'dist',
       insertTypesEntry: true,
-    }),
+    })]),
   ],
-  build: {
+  build: isDemo ? {
+    outDir: 'dist',
+  } : {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'VueAdvancedSpeedometer',
@@ -33,4 +37,5 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
     },
   },
+  ...(isDemo ? { root: 'demo' } : {}),
 })

@@ -490,10 +490,10 @@ function randomize() {
 }
 
 function exportPng() {
-  semiRef.value?.exportAs('png')
+  ;(semiRef.value as any)?.exportAs('png')
 }
 function exportSvg() {
-  semiRef.value?.exportAs('svg')
+  ;(semiRef.value as any)?.exportAs('svg')
 }
 </script>
 
@@ -1210,6 +1210,13 @@ body {
   .card-controls {
     gap: 10px;
   }
+
+  /* Developer Section */
+  .developer-section {
+    padding: 40px 20px;
+    margin-top: 32px;
+    border-radius: 16px;
+  }
 }
 
 /* --- Phone (≤ 480px) --- */
@@ -1312,6 +1319,31 @@ body {
 
   .footer p {
     line-height: 1.6;
+  }
+
+  /* Developer Section */
+  .developer-section {
+    padding: 32px 16px;
+    margin-top: 24px;
+    border-radius: 12px;
+  }
+  .developer-name {
+    font-size: 1.4rem;
+  }
+  .developer-avatar {
+    width: 64px;
+    height: 64px;
+  }
+  .avatar-initial {
+    font-size: 1.5rem;
+  }
+  .developer-links {
+    flex-direction: column;
+    width: 100%;
+  }
+  .dev-link {
+    width: 100%;
+    justify-content: center;
   }
 }
 </style>

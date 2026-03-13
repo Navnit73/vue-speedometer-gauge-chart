@@ -144,10 +144,10 @@ import 'vue-advanced-speedometer/dist/style.css'
             </thead>
             <tbody>
               <tr v-for="prop in propsData" :key="prop.name">
-                <td><code class="prop-name">{{ prop.name }}</code></td>
-                <td><code class="prop-type">{{ prop.type }}</code></td>
-                <td><code class="prop-default">{{ prop.default }}</code></td>
-                <td class="prop-desc">{{ prop.description }}</td>
+                <td data-label="Prop"><code class="prop-name">{{ prop.name }}</code></td>
+                <td data-label="Type"><code class="prop-type">{{ prop.type }}</code></td>
+                <td data-label="Default"><code class="prop-default">{{ prop.default }}</code></td>
+                <td data-label="Description" class="prop-desc">{{ prop.description }}</td>
               </tr>
             </tbody>
           </table>
@@ -1991,6 +1991,13 @@ function triggerEventDemo() {
     gap: 6px;
     font-size: 0.8rem;
   }
+
+  /* Developer Section */
+  .developer-section {
+    padding: 40px 20px;
+    margin-top: 32px;
+    border-radius: 16px;
+  }
 }
 
 /* --- Phone (≤ 480px) --- */
@@ -2170,6 +2177,31 @@ function triggerEventDemo() {
 
   .footer-inner {
     font-size: 0.78rem;
+  }
+
+  /* Developer Section */
+  .developer-section {
+    padding: 32px 16px;
+    margin-top: 24px;
+    border-radius: 12px;
+  }
+  .developer-name {
+    font-size: 1.4rem;
+  }
+  .developer-avatar {
+    width: 64px;
+    height: 64px;
+  }
+  .avatar-initial {
+    font-size: 1.5rem;
+  }
+  .developer-links {
+    flex-direction: column;
+    width: 100%;
+  }
+  .dev-link {
+    width: 100%;
+    justify-content: center;
   }
 }
 </style>

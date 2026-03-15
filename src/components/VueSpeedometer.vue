@@ -540,13 +540,15 @@ export default defineComponent({
 
       if (props.needles.length > 0) {
         // Multi-needle mode
+        // Reduce needle length slightly to accommodate labels
+        const multiNeedleLength = arcRadius.value * 0.65 
         for (let i = 0; i < props.needles.length; i++) {
           const nc = props.needles[i]
           const displayVal = needleDisplayValues.value[i] ?? nc.value
           const angle = computeAngle(displayVal)
-          const tip = polarToCartesian(center.value.x, center.value.y, needleLengthVal.value, angle)
+          const tip = polarToCartesian(center.value.x, center.value.y, multiNeedleLength, angle)
           const tail = polarToCartesian(center.value.x, center.value.y, needleTailLengthVal.value, angle + 180)
-          const labelPos = polarToCartesian(center.value.x, center.value.y, needleLengthVal.value + 14, angle)
+          const labelPos = polarToCartesian(center.value.x, center.value.y, multiNeedleLength + 14, angle)
           result.push({
             tip,
             tail,

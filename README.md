@@ -240,21 +240,14 @@ npm run build
 
 ---
 
-# 💰 Pricing
+# ❤️ Support & Sponsorship
 
-Lifetime license: **$5**
-
-Includes
-
-- Lifetime access
-- All future updates
-- Unlimited projects
-- Commercial usage
+If you sponsor then I feel happy 😊
 
 ---
 
 # 📄 License
 
-Commercial license.
+This project is free and open-source under the MIT License.
 
 See **LICENSE.md** for full details.

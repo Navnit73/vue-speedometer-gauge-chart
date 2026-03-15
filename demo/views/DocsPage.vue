@@ -1,67 +1,674 @@
 <template>
-  <div class="speedometer-docs">
+  <div class="docs">
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to content</a>
 
-    <!-- Header -->
-    <header class="docs-header">
+    <!-- Header with gradient and floating elements -->
+    <header class="header">
+      <div class="header-bg">
+        <div class="header-bg-glow"></div>
+        <div class="header-bg-dots"></div>
+      </div>
+
       <div class="header-content">
-        <div class="header-badge">v2.0.0 · MIT</div>
-        <h1>
-          <span class="header-icon">⚡</span>
-          Vue Advanced Speedometer
-        </h1>
-        <p class="subtitle">Professional-grade gauge chart library for Vue 3 with TypeScript support</p>
-        <div class="badge-group">
-          <span class="badge badge-green">Vue 3</span>
-          <span class="badge badge-blue">TypeScript</span>
-          <span class="badge badge-purple">Customizable</span>
+        <div class="header-top">
+          <span class="version-badge">
+            <span class="version-dot"></span>
+            v2.0.0 · MIT
+          </span>
+        </div>
+
+        <div class="header-main">
+          <h1 class="title">
+            <span class="title-icon">⚡</span>
+            Vue Advanced Speedometer
+          </h1>
+          <p class="subtitle">
+            Professional-grade gauge chart library for Vue 3 with full TypeScript support
+          </p>
+
+          <div class="tech-badges">
+            <span class="tech-badge vue">Vue 3</span>
+            <span class="tech-badge ts">TypeScript</span>
+            <span class="tech-badge customizable">Customizable</span>
+          </div>
+        </div>
+
+        <div class="header-stats">
+          <div class="stat-item">
+            <span class="stat-value">25+</span>
+            <span class="stat-label">Props</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">10+</span>
+            <span class="stat-label">Examples</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-value">100%</span>
+            <span class="stat-label">TS Coverage</span>
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- Navigation -->
-    <nav class="docs-nav">
-      <a href="#installation" class="nav-link">Installation</a>
-      <a href="#basic-usage" class="nav-link">Basic Usage</a>
-      <a href="#props" class="nav-link">Props</a>
-      <a href="#examples" class="nav-link">Examples</a>
-      <a href="#v2-examples" class="nav-link">V2 Features ✨</a>
-      <a href="#slots" class="nav-link">Slots</a>
-      <a href="#events" class="nav-link">Events</a>
-      <a href="#methods" class="nav-link">Methods</a>
-      <a href="#types" class="nav-link">TypeScript</a>
+    <!-- Sticky navigation -->
+    <nav class="nav" :class="{ 'nav-sticky': isNavSticky }" ref="navRef">
+      <div class="nav-container">
+        <button class="mobile-menu-btn" @click="toggleMobileMenu" aria-label="Menu">
+          <svg v-if="!mobileMenuOpen" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </button>
+
+        <div class="nav-links" :class="{ 'mobile-open': mobileMenuOpen }">
+          <a v-for="item in navItems" :key="item.id" :href="`#${item.id}`" class="nav-link"
+            :class="{ active: activeSection === item.id }" @click="handleNavClick(item.id)">
+            {{ item.label }}
+            <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
+          </a>
+        </div>
+
+        <button class="theme-toggle" @click="toggleTheme" aria-label="Toggle theme">
+          <svg v-if="isDark" width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5M17.6859 17.69L18.5 18.5M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"
+              stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
     </nav>
 
-    <!-- Main -->
-    <main class="docs-main">
+    <!-- Main content -->
+    <main id="main-content" class="main">
+      <div class="main-container">
+        <!-- Sidebar table of contents (desktop) -->
+        <aside class="toc">
+          <div class="toc-sticky">
+            <p class="toc-title">On this page</p>
+            <ul class="toc-list">
+              <li v-for="item in navItems" :key="item.id" class="toc-item">
+                <a :href="`#${item.id}`" class="toc-link" :class="{ active: activeSection === item.id }"
+                  @click="handleTocClick(item.id)">
+                  {{ item.label }}
+                </a>
+              </li>
+            </ul>
 
-      <!-- Installation -->
-      <section id="installation" class="docs-section">
-        <div class="section-label">Getting Started</div>
-        <h2>Installation</h2>
-        <p class="section-desc">Install via your preferred package manager and register the component globally or
-          locally.</p>
+            <div class="toc-cta">
+              <a href="https://github.com/Navnit73/vue-speedometer-gauge-chart" target="_blank" rel="noopener"
+                class="github-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                </svg>
+                <span>GitHub</span>
+              </a>
+            </div>
+          </div>
+        </aside>
 
-        <div class="install-tabs">
-          <button v-for="pkg in packageManagers" :key="pkg.name"
-            :class="['tab-btn', { active: activePackage === pkg.name }]" @click="activePackage = pkg.name">
-            {{ pkg.name }}
-          </button>
+        <!-- Documentation content -->
+        <div class="content">
+          <!-- Installation -->
+          <section id="installation" class="section" ref="installationRef">
+            <div class="section-header">
+              <span class="section-tag">Getting Started</span>
+              <h2 class="section-title">Installation</h2>
+            </div>
+            <p class="section-description">
+              Get started with Vue Advanced Speedometer in your project.
+            </p>
+
+            <div class="package-managers">
+              <button v-for="pkg in packageManagers" :key="pkg.name" class="package-btn"
+                :class="{ active: activePackage === pkg.name }" @click="activePackage = pkg.name">
+                {{ pkg.name }}
+              </button>
+            </div>
+
+            <div class="code-card">
+              <div class="code-header">
+                <span class="code-language">bash</span>
+                <button class="copy-button" @click="copyToClipboard(getInstallCommand())">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  <span>Copy</span>
+                </button>
+              </div>
+              <pre class="code-content"><code>{{ getInstallCommand() }}</code></pre>
+            </div>
+
+            <div class="setup-grid">
+              <div class="setup-card">
+                <h3 class="setup-title">Global Registration</h3>
+                <div class="code-card compact">
+                  <div class="code-header">
+                    <span class="code-language">ts</span>
+                    <button class="copy-button" @click="copyToClipboard(globalRegistrationCode)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <pre class="code-content"><code>{{ globalRegistrationCode }}</code></pre>
+                </div>
+              </div>
+
+              <div class="setup-card">
+                <h3 class="setup-title">Local Import</h3>
+                <div class="code-card compact">
+                  <div class="code-header">
+                    <span class="code-language">vue</span>
+                    <button class="copy-button" @click="copyToClipboard(localImportCode)">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <pre class="code-content"><code>{{ localImportCode }}</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Basic Usage -->
+          <section id="basic-usage" class="section" ref="basicUsageRef">
+            <div class="section-header">
+              <span class="section-tag">Quick Start</span>
+              <h2 class="section-title">Basic Usage</h2>
+            </div>
+            <p class="section-description">
+              Simple and powerful. Here's how to get started with minimal configuration.
+            </p>
+
+            <div class="examples-grid">
+              <div class="example-card">
+                <div class="example-preview">
+                  <VueSpeedometer :value="65" :max="100" />
+                </div>
+                <div class="example-info">
+                  <div class="example-header">
+                    <h3 class="example-name">Minimal</h3>
+                    <span class="example-badge">Default</span>
+                  </div>
+                  <div class="code-card compact">
+                    <pre class="code-content"><code>&lt;VueSpeedometer :value="65" :max="100" /&gt;</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <div class="example-card">
+                <div class="example-preview dark-bg">
+                  <VueSpeedometer :value="120" :max="180" type="full" theme="dark" :animationDuration="1000" />
+                </div>
+                <div class="example-info">
+                  <div class="example-header">
+                    <h3 class="example-name">Dark Theme</h3>
+                    <span class="example-badge">Custom</span>
+                  </div>
+                  <div class="code-card compact">
+                    <pre
+                      class="code-content"><code>&lt;VueSpeedometer :value="120" :max="180" type="full" theme="dark" :animationDuration="1000" /&gt;</code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Interactive Playground -->
+          <section id="playground" class="section" ref="playgroundRef">
+            <div class="section-header">
+              <span class="section-tag">Live Demo</span>
+              <h2 class="section-title">Interactive Playground</h2>
+            </div>
+            <p class="section-description">
+              Tweak props and see changes in real-time.
+            </p>
+
+            <div class="playground-card">
+              <div class="playground-preview">
+                <VueSpeedometer :value="playground.value" :max="playground.max" :type="playground.type"
+                  :theme="playground.theme" :animationDuration="playground.animation" />
+              </div>
+
+              <div class="playground-controls">
+                <div class="control-group">
+                  <div class="control-row">
+                    <label class="control-label">
+                      <span>Value</span>
+                      <span class="control-value">{{ playground.value }}</span>
+                    </label>
+                    <input type="range" v-model.number="playground.value" :min="0" :max="200" class="control-slider">
+                  </div>
+
+                  <div class="control-row">
+                    <label class="control-label">
+                      <span>Max</span>
+                      <span class="control-value">{{ playground.max }}</span>
+                    </label>
+                    <input type="range" v-model.number="playground.max" :min="50" :max="300" step="10"
+                      class="control-slider">
+                  </div>
+
+                  <div class="control-row">
+                    <label class="control-label">
+                      <span>Animation</span>
+                      <span class="control-value">{{ playground.animation }}ms</span>
+                    </label>
+                    <input type="range" v-model.number="playground.animation" :min="0" :max="2000" step="100"
+                      class="control-slider">
+                  </div>
+                </div>
+
+                <div class="control-group">
+                  <div class="control-row">
+                    <label class="control-label">Type</label>
+                    <select v-model="playground.type" class="control-select">
+                      <option value="semi">Semi Circle</option>
+                      <option value="full">Full Circle</option>
+                      <option value="quarter">Quarter</option>
+                    </select>
+                  </div>
+
+                  <div class="control-row">
+                    <label class="control-label">Theme</label>
+                    <select v-model="playground.theme" class="control-select">
+                      <option value="light">Light</option>
+                      <option value="dark">Dark</option>
+                      <option value="material">Material</option>
+                      <option value="minimal">Minimal</option>
+                      <option value="neon">Neon</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Props API -->
+          <section id="props" class="section" ref="propsRef">
+            <div class="section-header">
+              <span class="section-tag">API Reference</span>
+              <h2 class="section-title">Props</h2>
+            </div>
+            <p class="section-description">
+              Complete reference for all available component props.
+            </p>
+
+            <div class="props-table-wrapper">
+              <table class="props-table">
+                <thead>
+                  <tr>
+                    <th>Prop</th>
+                    <th>Type</th>
+                    <th>Default</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="prop in propsData" :key="prop.name">
+                    <td><code class="prop-name">{{ prop.name }}</code></td>
+                    <td><code class="prop-type">{{ prop.type }}</code></td>
+                    <td><code class="prop-default">{{ prop.default }}</code></td>
+                    <td class="prop-desc">{{ prop.description }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- V2 Features -->
+          <section id="v2-features" class="section" ref="v2FeaturesRef">
+            <div class="section-header">
+              <span class="section-tag feature-tag">✨ New in v2.0</span>
+              <h2 class="section-title">Advanced Features</h2>
+            </div>
+            <p class="section-description">
+              Powerful new features for complex use cases.
+            </p>
+
+            <div class="features-grid">
+              <!-- Multi-needle -->
+              <div class="feature-card">
+                <div class="feature-preview">
+                  <VueSpeedometer :max="200" :needles="v2Needles" />
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">
+                    Multi-Needle
+                    <span class="feature-badge">v2</span>
+                  </h3>
+                  <p class="feature-desc">Render multiple needles with independent values, colors, and labels.</p>
+                  <div class="feature-controls">
+                    <div class="control-row">
+                      <span class="control-label-small">Needle A</span>
+                      <input type="range" :min="0" :max="200" v-model.number="v2NeedleA" class="control-slider">
+                      <span class="control-value-small">{{ v2NeedleA }}</span>
+                    </div>
+                    <div class="control-row">
+                      <span class="control-label-small">Needle B</span>
+                      <input type="range" :min="0" :max="200" v-model.number="v2NeedleB" class="control-slider">
+                      <span class="control-value-small">{{ v2NeedleB }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Logarithmic Scale -->
+              <div class="feature-card">
+                <div class="feature-preview">
+                  <VueSpeedometer :value="v2LogVal" :min="1" :max="10000" :logarithmic="true" :formatTick="fmtLog"
+                    :formatValue="fmtLogVal" :majorTicks="4" />
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">
+                    Logarithmic Scale
+                    <span class="feature-badge">v2</span>
+                  </h3>
+                  <p class="feature-desc">Switch from linear to log₁₀ spacing for wide-range data.</p>
+                  <div class="feature-controls">
+                    <input type="range" :min="1" :max="10000" v-model.number="v2LogVal" class="control-slider">
+                    <span class="control-value-small">{{ v2LogVal.toLocaleString() }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Custom Formatting -->
+              <div class="feature-card">
+                <div class="feature-preview">
+                  <VueSpeedometer :value="v2Currency" :min="0" :max="10000" :formatTick="fmtCurrency"
+                    :formatValue="fmtCurrencyVal" :majorTicks="5" />
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">
+                    Custom Formatting
+                    <span class="feature-badge">v2</span>
+                  </h3>
+                  <p class="feature-desc">Format ticks and values as currency, percentages, etc.</p>
+                  <div class="feature-controls">
+                    <input type="range" :min="0" :max="10000" v-model.number="v2Currency" class="control-slider">
+                    <span class="control-value-small">${{ v2Currency.toLocaleString() }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Concentric Arcs -->
+              <div class="feature-card">
+                <div class="feature-preview">
+                  <VueSpeedometer :value="75" :max="100" :concentricArcs="v2ConcentricData" />
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">
+                    Concentric Arcs
+                    <span class="feature-badge">v2</span>
+                  </h3>
+                  <p class="feature-desc">Add secondary metric rings inside or outside the main gauge.</p>
+                </div>
+              </div>
+
+              <!-- Tooltips -->
+              <div class="feature-card">
+                <div class="feature-preview">
+                  <VueSpeedometer :value="95" :max="180" :segments="demoSegments" :tooltips="true" />
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">
+                    Segment Tooltips
+                    <span class="feature-badge">v2</span>
+                  </h3>
+                  <p class="feature-desc">Hover over segments to see their value range.</p>
+                </div>
+              </div>
+
+              <!-- Sparkline Trail -->
+              <div class="feature-card">
+                <div class="feature-preview">
+                  <VueSpeedometer :value="v2SparkVal" :max="100" :valueHistory="v2History" />
+                </div>
+                <div class="feature-content">
+                  <h3 class="feature-title">
+                    Sparkline Trail
+                    <span class="feature-badge">v2</span>
+                  </h3>
+                  <p class="feature-desc">Visualize recent values with a trailing sparkline.</p>
+                  <div class="feature-controls">
+                    <input type="range" :min="0" :max="100" v-model.number="v2SparkVal" class="control-slider">
+                    <span class="control-value-small">{{ v2SparkVal }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Slots -->
+          <section id="slots" class="section" ref="slotsRef">
+            <div class="section-header">
+              <span class="section-tag">Customization</span>
+              <h2 class="section-title">Slots</h2>
+            </div>
+            <p class="section-description">
+              Fully customize the gauge's inner content with scoped slots.
+            </p>
+
+            <div class="slot-demo">
+              <div class="slot-preview">
+                <VueSpeedometer :value="85" :max="100">
+                  <template #center="{ value, percentage }">
+                    <div class="custom-center">
+                      <span class="custom-center-value">{{ Math.round(value) }}</span>
+                      <span class="custom-center-label">SCORE</span>
+                      <span class="custom-center-percentage">{{ Math.round(percentage) }}%</span>
+                    </div>
+                  </template>
+                </VueSpeedometer>
+              </div>
+
+              <div class="slot-info">
+                <div class="slot-header">
+                  <code class="slot-name">#center</code>
+                  <span class="slot-badge">Scoped Slot</span>
+                </div>
+                <p class="slot-desc">Customize the center display area of the gauge.</p>
+                <div class="slot-props">
+                  <div class="slot-prop">
+                    <code>value: number</code>
+                    <span>Current gauge value</span>
+                  </div>
+                  <div class="slot-prop">
+                    <code>percentage: number</code>
+                    <span>Value as percentage (0–100)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Events -->
+          <section id="events" class="section" ref="eventsRef">
+            <div class="section-header">
+              <span class="section-tag">API Reference</span>
+              <h2 class="section-title">Events</h2>
+            </div>
+            <p class="section-description">
+              Listen to lifecycle events emitted by the component.
+            </p>
+
+            <div class="events-grid">
+              <div v-for="event in eventsData" :key="event.name" class="event-card">
+                <div class="event-header">
+                  <code class="event-name">@{{ event.name }}</code>
+                  <code class="event-type">{{ event.payload }}</code>
+                </div>
+                <p class="event-desc">{{ event.description }}</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Methods -->
+          <section id="methods" class="section" ref="methodsRef">
+            <div class="section-header">
+              <span class="section-tag">API Reference</span>
+              <h2 class="section-title">Methods</h2>
+            </div>
+            <p class="section-description">
+              Call methods directly on the component ref to trigger actions programmatically.
+            </p>
+
+            <div class="methods-grid">
+              <div class="method-card">
+                <div class="method-header">
+                  <code class="method-name">animateTo()</code>
+                </div>
+                <p class="method-desc">Manually animate the needle to a specific value.</p>
+                <div class="method-demo">
+                  <VueSpeedometer ref="methodGaugeRef" :value="30" :max="100" />
+                  <div class="method-actions">
+                    <button class="method-btn" @click="animateToRandom">Random</button>
+                    <button class="method-btn" @click="animateToValue(75)">Go to 75</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="method-card">
+                <div class="method-header">
+                  <code class="method-name">exportAs()</code>
+                </div>
+                <p class="method-desc">Export the gauge as a PNG or SVG file.</p>
+                <div class="method-demo">
+                  <VueSpeedometer ref="exportGaugeRef" :value="60" :max="100" />
+                  <div class="method-actions">
+                    <button class="method-btn" @click="exportPNG">PNG</button>
+                    <button class="method-btn" @click="exportSVG">SVG</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- TypeScript -->
+          <section id="typescript" class="section" ref="typescriptRef">
+            <div class="section-header">
+              <span class="section-tag">TypeScript</span>
+              <h2 class="section-title">Type Definitions</h2>
+            </div>
+            <p class="section-description">
+              Full TypeScript support with exported types and interfaces.
+            </p>
+
+            <div class="types-grid">
+              <div v-for="type in typeDefinitions" :key="type.title" class="type-card">
+                <div class="type-label">{{ type.label }}</div>
+                <h3 class="type-title">{{ type.title }}</h3>
+                <div class="code-card compact">
+                  <pre class="code-content"><code>{{ type.code }}</code></pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Author -->
+          <section class="section author-section">
+            <div class="author-card">
+              <div class="author-avatar">
+                <span class="author-initial">NR</span>
+              </div>
+              <div class="author-info">
+                <h3 class="author-name">Navnit Rai</h3>
+                <p class="author-role">Creator & Maintainer</p>
+                <div class="author-links">
+                  <a href="mailto:navnitrai5389@gmail.com" class="author-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="4" width="20" height="16" rx="2" />
+                      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
+                    <span>Email</span>
+                  </a>
+                  <a href="https://github.com/Navnit73/" target="_blank" rel="noopener" class="author-link">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path
+                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+                    </svg>
+                    <span>GitHub</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
+      </div>
+    </main>
 
-        <div class="code-block">
-          <span class="code-lang">shell</span>
-          <pre><code>{{ getInstallCommand() }}</code></pre>
-          <button class="copy-btn" @click="copyToClipboard(getInstallCommand())">
-            <span>Copy</span>
-          </button>
-        </div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>Vue Advanced Speedometer <strong>v2.0.0</strong> · MIT Licensed</p>
+        <p>Built with ❤️ for the Vue community</p>
+      </div>
+    </footer>
+  </div>
+</template>
 
-        <div class="setup-tabs-content">
-          <div class="setup-col">
-            <h3>Global Registration</h3>
-            <div class="code-block">
-              <span class="code-lang">ts</span>
-              <pre><code>// main.ts
+<script setup lang="ts">
+import { ref, computed, onMounted, onUnmounted, nextTick } from 'vue'
+import { VueSpeedometer } from '../../src'
+import type { Segment, AlertThreshold, NeedleConfig, ConcentricArc } from '../../src'
+
+// ===== State =====
+const activePackage = ref('npm')
+const mobileMenuOpen = ref(false)
+const activeSection = ref('installation')
+const isNavSticky = ref(false)
+const isDark = ref(false)
+
+// Refs for sections
+const installationRef = ref<HTMLElement>()
+const basicUsageRef = ref<HTMLElement>()
+const playgroundRef = ref<HTMLElement>()
+const propsRef = ref<HTMLElement>()
+const v2FeaturesRef = ref<HTMLElement>()
+const slotsRef = ref<HTMLElement>()
+const eventsRef = ref<HTMLElement>()
+const methodsRef = ref<HTMLElement>()
+const typescriptRef = ref<HTMLElement>()
+const navRef = ref<HTMLElement>()
+
+// ===== Navigation =====
+const navItems = [
+  { id: 'installation', label: 'Installation' },
+  { id: 'basic-usage', label: 'Basic Usage' },
+  { id: 'playground', label: 'Playground' },
+  { id: 'props', label: 'Props' },
+  { id: 'v2-features', label: 'V2 Features', badge: '✨' },
+  { id: 'slots', label: 'Slots' },
+  { id: 'events', label: 'Events' },
+  { id: 'methods', label: 'Methods' },
+  { id: 'typescript', label: 'TypeScript' }
+]
+
+// ===== Package Managers =====
+const packageManagers = [
+  { name: 'npm', command: 'npm install vue-advanced-speedometer' },
+  { name: 'yarn', command: 'yarn add vue-advanced-speedometer' },
+  { name: 'pnpm', command: 'pnpm add vue-advanced-speedometer' }
+]
+
+// ===== Code Examples =====
+const globalRegistrationCode = `// main.ts
 import { createApp } from 'vue'
 import { VueSpeedometer } from 'vue-advanced-speedometer'
 import 'vue-advanced-speedometer/dist/style.css'
@@ -69,550 +676,14 @@ import App from './App.vue'
 
 const app = createApp(App)
 app.component('VueSpeedometer', VueSpeedometer)
-app.mount('#app')</code></pre>
-            </div>
-          </div>
-          <div class="setup-col">
-            <h3>Local Import</h3>
-            <div class="code-block">
-              <span class="code-lang">vue</span>
-              <pre><code>&lt;script setup&gt;
+app.mount('#app')`
+
+const localImportCode = `<script setup>
 import { VueSpeedometer } from 'vue-advanced-speedometer'
 import 'vue-advanced-speedometer/dist/style.css'
-&lt;/script&gt;</code></pre>
-            </div>
-          </div>
-        </div>
-      </section>
+<\/script>`
 
-      <!-- Basic Usage -->
-      <section id="basic-usage" class="docs-section">
-        <div class="section-label">Usage</div>
-        <h2>Basic Usage</h2>
-        <p class="section-desc">Get up and running with minimal configuration or customize with powerful props.</p>
-
-        <div class="example-grid">
-          <div class="example-card">
-            <div class="example-card-header">
-              <span class="example-title">Minimal</span>
-              <span class="example-chip">Default</span>
-            </div>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="65" :max="100" />
-            </div>
-            <div class="code-block small">
-              <pre><code>&lt;VueSpeedometer :value="65" :max="100" /&gt;</code></pre>
-            </div>
-          </div>
-
-          <div class="example-card">
-            <div class="example-card-header">
-              <span class="example-title">With Custom Props</span>
-              <span class="example-chip example-chip-dark">Dark Theme</span>
-            </div>
-            <div class="gauge-preview gauge-preview-dark">
-              <VueSpeedometer :value="120" :max="180" type="full" theme="dark" :animationDuration="1000" />
-            </div>
-            <div class="code-block small">
-              <pre><code>&lt;VueSpeedometer
-  :value="120"
-  :max="180"
-  type="full"
-  theme="dark"
-  :animationDuration="1000"
-/&gt;</code></pre>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Props -->
-      <section id="props" class="docs-section">
-        <div class="section-label">API Reference</div>
-        <h2>Props</h2>
-        <p class="section-desc">Complete reference for all available component props.</p>
-
-        <div class="props-table-container">
-          <table class="props-table">
-            <thead>
-              <tr>
-                <th>Prop</th>
-                <th>Type</th>
-                <th>Default</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="prop in propsData" :key="prop.name">
-                <td data-label="Prop"><code class="prop-name">{{ prop.name }}</code></td>
-                <td data-label="Type"><code class="prop-type">{{ prop.type }}</code></td>
-                <td data-label="Default"><code class="prop-default">{{ prop.default }}</code></td>
-                <td data-label="Description" class="prop-desc">{{ prop.description }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Playground -->
-        <div class="playground">
-          <div class="playground-header">
-            <div class="playground-title">
-              <span class="playground-icon">🎮</span>
-              Interactive Playground
-            </div>
-            <span class="playground-subtitle">Tweak props and see changes live</span>
-          </div>
-
-          <div class="playground-grid">
-            <div class="playground-controls">
-              <div class="control-group">
-                <div class="control-item">
-                  <label>
-                    <span class="control-label">Value</span>
-                    <span class="control-value">{{ playground.value }}</span>
-                  </label>
-                  <input type="range" v-model.number="playground.value" :min="0" :max="200" />
-                </div>
-
-                <div class="control-item">
-                  <label>
-                    <span class="control-label">Max</span>
-                    <span class="control-value">{{ playground.max }}</span>
-                  </label>
-                  <input type="range" v-model.number="playground.max" :min="50" :max="300" step="10" />
-                </div>
-
-                <div class="control-item">
-                  <label>
-                    <span class="control-label">Animation</span>
-                    <span class="control-value">{{ playground.animation }}ms</span>
-                  </label>
-                  <input type="range" v-model.number="playground.animation" :min="0" :max="2000" step="100" />
-                </div>
-              </div>
-
-              <div class="select-group">
-                <div class="control-item">
-                  <label><span class="control-label">Type</span></label>
-                  <select v-model="playground.type">
-                    <option value="semi">Semi Circle</option>
-                    <option value="full">Full Circle</option>
-                    <option value="quarter">Quarter</option>
-                  </select>
-                </div>
-
-                <div class="control-item">
-                  <label><span class="control-label">Theme</span></label>
-                  <select v-model="playground.theme">
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                    <option value="material">Material</option>
-                    <option value="minimal">Minimal</option>
-                    <option value="neon">Neon</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div class="playground-preview">
-              <VueSpeedometer :value="playground.value" :max="playground.max" :type="playground.type"
-                :theme="playground.theme" :animationDuration="playground.animation" />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Examples -->
-      <section id="examples" class="docs-section">
-        <div class="section-label">Showcase</div>
-        <h2>Real-World Examples</h2>
-        <p class="section-desc">Common patterns to get you started quickly.</p>
-
-        <div class="examples-grid">
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Custom Segments</span>
-            </div>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="95" :max="180" :segments="demoSegments" />
-            </div>
-            <div class="code-block">
-              <pre><code>{{ segmentCode }}</code></pre>
-            </div>
-          </div>
-
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Gradient Arc</span>
-            </div>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="120" :max="180" :gradient="['#00ff88', '#ffaa00', '#ff3300']" />
-            </div>
-            <div class="code-block">
-              <pre><code>{{ gradientCode }}</code></pre>
-            </div>
-          </div>
-
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Alert Thresholds</span>
-            </div>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="150" :max="180" :alerts="demoAlerts" />
-            </div>
-            <div class="code-block">
-              <pre><code>{{ alertCode }}</code></pre>
-            </div>
-          </div>
-
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Custom Center Slot</span>
-            </div>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="85" :max="100">
-                <template #center="{ value, percentage }">
-                  <div class="custom-center">
-                    <div class="big-value">{{ Math.round(value) }}</div>
-                    <div class="small-label">SCORE</div>
-                    <div class="percentage-val">{{ Math.round(percentage) }}%</div>
-                  </div>
-                </template>
-              </VueSpeedometer>
-            </div>
-            <div class="code-block">
-              <pre><code>{{ slotCode }}</code></pre>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- V2 Feature Examples -->
-      <section id="v2-examples" class="docs-section">
-        <div class="section-label" style="color: #10b981">New in V2</div>
-        <h2>V2 Feature Examples ✨</h2>
-        <p class="section-desc">Interactive examples for every new V2 prop. Each example includes a live preview and the code to reproduce it.</p>
-
-        <div class="examples-grid">
-
-          <!-- needles -->
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Multi-Needle (needles)</span>
-              <span class="example-chip" style="background:#dbeafe;color:#1d4ed8">V2</span>
-            </div>
-            <p class="v2-desc">Render multiple needles with independent values, colors, and labels.</p>
-            <div class="gauge-preview">
-              <VueSpeedometer :max="200" :needles="v2Needles" />
-            </div>
-            <div class="v2-controls">
-              <label>Needle A: <input type="range" :min="0" :max="200" v-model.number="v2NeedleA" /> {{ v2NeedleA }}</label>
-              <label>Needle B: <input type="range" :min="0" :max="200" v-model.number="v2NeedleB" /> {{ v2NeedleB }}</label>
-            </div>
-            <div class="code-block small"><pre><code>{{ needlesCode }}</code></pre></div>
-          </div>
-
-          <!-- logarithmic -->
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Logarithmic Scale (logarithmic)</span>
-              <span class="example-chip" style="background:#dbeafe;color:#1d4ed8">V2</span>
-            </div>
-            <p class="v2-desc">Switch from linear to log₁₀ spacing — ideal for wide-range data.</p>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="v2LogVal" :min="1" :max="10000" :logarithmic="true" :formatTick="fmtLog" :formatValue="fmtLogVal" :majorTicks="4" />
-            </div>
-            <div class="v2-controls">
-              <label>Value: <input type="range" :min="1" :max="10000" v-model.number="v2LogVal" /> {{ v2LogVal.toLocaleString() }}</label>
-            </div>
-            <div class="code-block small"><pre><code>{{ logCode }}</code></pre></div>
-          </div>
-
-          <!-- formatTick -->
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Custom Tick Labels (formatTick)</span>
-              <span class="example-chip" style="background:#dbeafe;color:#1d4ed8">V2</span>
-            </div>
-            <p class="v2-desc">Format tick labels as currency, RPM, percentages — anything you need.</p>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="v2Currency" :min="0" :max="10000" :formatTick="fmtCurrency" :formatValue="fmtCurrencyVal" :majorTicks="5" />
-            </div>
-            <div class="v2-controls">
-              <label>Revenue: <input type="range" :min="0" :max="10000" v-model.number="v2Currency" /> ${{ v2Currency.toLocaleString() }}</label>
-            </div>
-            <div class="code-block small"><pre><code>{{ formatTickCode }}</code></pre></div>
-          </div>
-
-          <!-- concentricArcs -->
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Concentric Arcs (concentricArcs)</span>
-              <span class="example-chip" style="background:#dbeafe;color:#1d4ed8">V2</span>
-            </div>
-            <p class="v2-desc">Add secondary metric rings inside or outside the main gauge arc.</p>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="75" :max="100" :concentricArcs="v2ConcentricData" />
-            </div>
-            <div class="code-block small"><pre><code>{{ concentricCode }}</code></pre></div>
-          </div>
-
-          <!-- tooltips -->
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Segment Tooltips (tooltips)</span>
-              <span class="example-chip" style="background:#dbeafe;color:#1d4ed8">V2</span>
-            </div>
-            <p class="v2-desc">Hover over colored segments to see their value range.</p>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="95" :max="180" :segments="demoSegments" :tooltips="true" />
-            </div>
-            <div class="code-block small"><pre><code>{{ tooltipsCode }}</code></pre></div>
-          </div>
-
-          <!-- valueHistory -->
-          <div class="example-card large">
-            <div class="example-card-header">
-              <span class="example-title">Value Sparkline (valueHistory)</span>
-              <span class="example-chip" style="background:#dbeafe;color:#1d4ed8">V2</span>
-            </div>
-            <p class="v2-desc">Pass an array of recent values to render a trailing sparkline trail.</p>
-            <div class="gauge-preview">
-              <VueSpeedometer :value="v2SparkVal" :max="100" :valueHistory="v2History" />
-            </div>
-            <div class="v2-controls">
-              <label>Value: <input type="range" :min="0" :max="100" v-model.number="v2SparkVal" /> {{ v2SparkVal }}</label>
-            </div>
-            <div class="code-block small"><pre><code>{{ sparklineCode }}</code></pre></div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Slots -->
-      <section id="slots" class="docs-section">
-        <div class="section-label">API Reference</div>
-        <h2>Slots</h2>
-        <p class="section-desc">Scoped slots to fully customize the gauge's inner content.</p>
-
-        <div class="slot-card">
-          <div class="slot-header">
-            <code class="slot-name">#center</code>
-            <span class="slot-badge">Scoped Slot</span>
-          </div>
-          <p class="slot-desc">Customize the center display area of the gauge.</p>
-          <div class="slot-props-box">
-            <div class="slot-prop-row">
-              <code>value: number</code>
-              <span>Current gauge value</span>
-            </div>
-            <div class="slot-prop-row">
-              <code>percentage: number</code>
-              <span>Value as percentage (0–100)</span>
-            </div>
-          </div>
-          <div class="code-block small">
-            <pre><code>&lt;template #center="{ value, percentage }"&gt;
-          &lt;div class="custom-display"&gt;
-          {{ value }} ({{ percentage }}%)
-          &lt;/div&gt;
-          &lt;/template&gt;</code></pre>
-          </div>
-        </div>
-      </section>
-
-      <!-- Events -->
-      <section id="events" class="docs-section">
-        <div class="section-label">API Reference</div>
-        <h2>Events</h2>
-        <p class="section-desc">Listen to lifecycle events emitted by the component.</p>
-
-        <div class="events-list">
-          <div v-for="event in eventsData" :key="event.name" class="event-card">
-            <div class="event-header">
-              <code class="event-name">@{{ event.name }}</code>
-              <code class="event-payload">{{ event.payload }}</code>
-            </div>
-            <p class="event-desc">{{ event.description }}</p>
-            <div class="event-demo" v-if="event.name === 'value-change'">
-              <button class="demo-btn" @click="triggerEventDemo">Trigger Demo</button>
-              <div class="event-output">
-                <span class="event-output-dot"></span>
-                {{ eventOutput }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Methods -->
-      <section id="methods" class="docs-section">
-        <div class="section-label">API Reference</div>
-        <h2>Exposed Methods</h2>
-        <p class="section-desc">Call methods directly on the component ref to trigger actions programmatically.</p>
-
-        <div class="methods-grid">
-          <div class="method-card">
-            <div class="method-header">
-              <code class="method-name">animateTo()</code>
-            </div>
-            <p class="method-desc">Manually animate the needle to a specific value.</p>
-            <div class="method-signature">
-              <code>animateTo(value: number, duration?: number): void</code>
-            </div>
-            <div class="method-demo">
-              <VueSpeedometer ref="methodGaugeRef" :value="30" :max="100" />
-              <div class="demo-controls">
-                <button @click="animateToRandom">Random</button>
-                <button @click="animateToValue(75)">Go to 75</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="method-card">
-            <div class="method-header">
-              <code class="method-name">exportAs()</code>
-            </div>
-            <p class="method-desc">Export the gauge as a PNG or SVG file.</p>
-            <div class="method-signature">
-              <code>exportAs(format: 'png' | 'svg'): void</code>
-            </div>
-            <div class="method-demo">
-              <VueSpeedometer ref="exportGaugeRef" :value="60" :max="100" />
-              <div class="demo-controls">
-                <button @click="exportPNG">Export PNG</button>
-                <button @click="exportSVG">Export SVG</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TypeScript -->
-      <section id="types" class="docs-section">
-        <div class="section-label">TypeScript</div>
-        <h2>Type Definitions</h2>
-        <p class="section-desc">Full TypeScript support out of the box with exported types and interfaces.</p>
-
-        <div class="types-grid">
-          <div class="type-card">
-            <div class="type-card-label">Interface</div>
-            <h3>Segment</h3>
-            <div class="code-block">
-              <pre><code>interface Segment {
-            from: number // Start value
-            to: number // End value
-            color: string // CSS color
-            }</code></pre>
-            </div>
-          </div>
-
-          <div class="type-card">
-            <div class="type-card-label">Interface</div>
-            <h3>AlertThreshold</h3>
-            <div class="code-block">
-              <pre><code>interface AlertThreshold {
-            value: number // Threshold value
-            color: string // Alert ring color
-            }</code></pre>
-            </div>
-          </div>
-
-          <div class="type-card">
-            <div class="type-card-label">V2 Interface</div>
-            <h3>NeedleConfig ✨</h3>
-            <div class="code-block">
-              <pre><code>interface NeedleConfig {
-            value: number   // Needle value
-            color?: string  // Needle color
-            label?: string  // Label near tip
-            width?: number  // Stroke width
-            }</code></pre>
-            </div>
-          </div>
-
-          <div class="type-card">
-            <div class="type-card-label">V2 Interface</div>
-            <h3>ConcentricArc ✨</h3>
-            <div class="code-block">
-              <pre><code>interface ConcentricArc {
-            radius: number  // Arc radius
-            color: string   // Arc color
-            value: number   // Current value
-            max?: number    // Max value
-            width?: number  // Stroke width
-            }</code></pre>
-            </div>
-          </div>
-
-          <div class="type-card">
-            <div class="type-card-label">Union Types</div>
-            <h3>GaugeType & Theme</h3>
-            <div class="code-block">
-              <pre><code>type GaugeType =
-            | 'semi'
-            | 'full'
-            | 'quarter'
-
-            type Theme =
-            | 'light' | 'dark'
-            | 'material' | 'minimal'
-            | 'neon'</code></pre>
-            </div>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Developer Info -->
-    <section class="developer-section">
-      <div class="developer-card">
-        <div class="developer-avatar">
-          <span class="avatar-initial">N</span>
-        </div>
-        <h2 class="developer-name">Navnit Rai</h2>
-        <p class="developer-role">Creator & Maintainer</p>
-        <div class="developer-links">
-          <a href="mailto:navnitrai5389@gmail.com" class="dev-link dev-link-email">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            <span>navnitrai5389@gmail.com</span>
-          </a>
-          <a href="https://github.com/Navnit73/" target="_blank" rel="noopener" class="dev-link dev-link-github">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-            <span>github.com/Navnit73</span>
-          </a>
-        </div>
-        <p class="developer-tagline">Building open-source tools for the Vue ecosystem 🚀</p>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="docs-footer">
-      <div class="footer-inner">
-        <span>Vue Advanced Speedometer <strong>v2.0.0</strong></span>
-        <span class="footer-divider">·</span>
-        <span>MIT Licensed</span>
-        <span class="footer-divider">·</span>
-        <span>Built for the Vue community ❤️</span>
-      </div>
-    </footer>
-
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { VueSpeedometer } from '../../src'
-import type { Segment, AlertThreshold, NeedleConfig, ConcentricArc } from '../../src'
-
-const activePackage = ref('npm')
-const packageManagers = [
-  { name: 'npm', command: 'npm install vue-advanced-speedometer' },
-  { name: 'yarn', command: 'yarn add vue-advanced-speedometer' },
-  { name: 'pnpm', command: 'pnpm add vue-advanced-speedometer' }
-]
-
+// ===== Playground =====
 const playground = ref({
   value: 75,
   max: 150,
@@ -621,22 +692,46 @@ const playground = ref({
   animation: 800
 })
 
-const methodGaugeRef = ref<InstanceType<typeof VueSpeedometer> | null>(null)
-const exportGaugeRef = ref<InstanceType<typeof VueSpeedometer> | null>(null)
+// ===== V2 Interactive Data =====
+const v2NeedleA = ref(60)
+const v2NeedleB = ref(140)
+const v2Needles = computed<NeedleConfig[]>(() => [
+  { value: v2NeedleA.value, color: '#3b82f6', label: 'AVG', width: 3 },
+  { value: v2NeedleB.value, color: '#ef4444', label: 'MAX', width: 2 },
+])
 
+const v2LogVal = ref(500)
+function fmtLog(v: number): string {
+  return v >= 1000 ? `${(v / 1000).toFixed(v >= 10000 ? 0 : 1)}k` : Math.round(v).toString()
+}
+function fmtLogVal(v: number): string {
+  return v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v.toString()
+}
+
+const v2Currency = ref(4500)
+function fmtCurrency(v: number): string {
+  return v >= 1000 ? `$${(v / 1000).toFixed(0)}k` : `$${v}`
+}
+function fmtCurrencyVal(v: number): string {
+  return `$${v.toLocaleString()}`
+}
+
+const v2ConcentricData: ConcentricArc[] = [
+  { radius: 80, color: '#3b82f6', value: 55, max: 100, width: 5 },
+  { radius: 70, color: '#22c55e', value: 40, max: 100, width: 5 },
+]
+
+const v2SparkVal = ref(50)
+const v2History = ref([20, 35, 50, 42, 60, 55, 45, 50])
+
+// ===== Demo Data =====
 const demoSegments: Segment[] = [
   { from: 0, to: 60, color: '#22c55e' },
   { from: 60, to: 120, color: '#eab308' },
   { from: 120, to: 180, color: '#ef4444' }
 ]
 
-const demoAlerts: AlertThreshold[] = [
-  { value: 80, color: '#f59e0b' },
-  { value: 140, color: '#ef4444' }
-]
-
-const eventOutput = ref('Waiting for event...')
-
+// ===== Props Data =====
 const propsData = [
   { name: 'value', type: 'number', default: '0', description: 'Current gauge value' },
   { name: 'min', type: 'number', default: '0', description: 'Minimum possible value' },
@@ -653,14 +748,15 @@ const propsData = [
   { name: 'animationDuration', type: 'number', default: '800', description: 'Animation duration in ms (0 to disable)' },
   { name: 'width', type: 'number | string', default: "'100%'", description: 'Container width' },
   { name: 'height', type: 'number | string', default: "'auto'", description: 'Container height' },
-  { name: 'needles ✨', type: 'NeedleConfig[]', default: '[]', description: 'V2: Multiple needle configs with independent colors and labels' },
-  { name: 'logarithmic ✨', type: 'boolean', default: 'false', description: 'V2: Use logarithmic (log₁₀) scale instead of linear' },
-  { name: 'formatTick ✨', type: '(v: number) => string', default: 'undefined', description: 'V2: Custom tick label formatter function' },
-  { name: 'concentricArcs ✨', type: 'ConcentricArc[]', default: '[]', description: 'V2: Secondary metric arcs inside/outside main arc' },
-  { name: 'tooltips ✨', type: 'boolean', default: 'false', description: 'V2: Enable hover tooltips on segments' },
-  { name: 'valueHistory ✨', type: 'number[]', default: '[]', description: 'V2: Value history array for sparkline trail' },
+  { name: 'needles ✨', type: 'NeedleConfig[]', default: '[]', description: 'Multiple needle configs with independent colors and labels' },
+  { name: 'logarithmic ✨', type: 'boolean', default: 'false', description: 'Use logarithmic (log₁₀) scale instead of linear' },
+  { name: 'formatTick ✨', type: '(v: number) => string', default: 'undefined', description: 'Custom tick label formatter function' },
+  { name: 'concentricArcs ✨', type: 'ConcentricArc[]', default: '[]', description: 'Secondary metric arcs inside/outside main arc' },
+  { name: 'tooltips ✨', type: 'boolean', default: 'false', description: 'Enable hover tooltips on segments' },
+  { name: 'valueHistory ✨', type: 'number[]', default: '[]', description: 'Value history array for sparkline trail' },
 ]
 
+// ===== Events Data =====
 const eventsData = [
   { name: 'value-change', payload: '{ value: number, oldValue: number }', description: 'Fired when the value prop changes' },
   { name: 'segment-enter', payload: '{ segment: Segment, index: number }', description: 'Fired when needle enters a segment' },
@@ -668,528 +764,1061 @@ const eventsData = [
   { name: 'animation-end', payload: '{ value: number }', description: 'Fired when animation completes' }
 ]
 
-// ===== V1 code examples =====
-const segmentCode = `const segments = [
-  { from: 0,   to: 60,  color: '#22c55e' },
-  { from: 60,  to: 120, color: '#eab308' },
-  { from: 120, to: 180, color: '#ef4444' }
+// ===== Type Definitions =====
+const typeDefinitions = [
+  {
+    label: 'Interface',
+    title: 'Segment',
+    code: `interface Segment {
+  from: number
+  to: number
+  color: string
+}`
+  },
+  {
+    label: 'Interface',
+    title: 'AlertThreshold',
+    code: `interface AlertThreshold {
+  value: number
+  color: string
+}`
+  },
+  {
+    label: 'V2 Interface',
+    title: 'NeedleConfig',
+    code: `interface NeedleConfig {
+  value: number
+  color?: string
+  label?: string
+  width?: number
+}`
+  },
+  {
+    label: 'V2 Interface',
+    title: 'ConcentricArc',
+    code: `interface ConcentricArc {
+  radius: number
+  color: string
+  value: number
+  max?: number
+  width?: number
+}`
+  },
+  {
+    label: 'Union Types',
+    title: 'GaugeType & Theme',
+    code: `type GaugeType = 'semi' | 'full' | 'quarter'
+type Theme = 'light' | 'dark' | 'material' | 'minimal' | 'neon'`
+  }
 ]
 
-<VueSpeedometer :value="95" :max="180" :segments="segments" />`
+// ===== Refs for methods =====
+const methodGaugeRef = ref<InstanceType<typeof VueSpeedometer> | null>(null)
+const exportGaugeRef = ref<InstanceType<typeof VueSpeedometer> | null>(null)
 
-const gradientCode = `<VueSpeedometer
-  :value="120"
-  :max="180"
-  :gradient="['#00ff88', '#ffaa00', '#ff3300']"
-/>`
-
-const alertCode = `const alerts = [
-  { value: 80,  color: '#f59e0b' },
-  { value: 140, color: '#ef4444' }
-]
-
-<VueSpeedometer :value="150" :max="180" :alerts="alerts" />`
-
-const slotCode = `<VueSpeedometer :value="85" :max="100">
-  <template #center="{ value, percentage }">
-    <div class="custom-center">
-      <div class="value">{{ value }}</div>
-      <div class="pct">{{ percentage }}%</div>
-    </div>
-  </template>
-</VueSpeedometer>`
-
-// ===== V2 interactive data =====
-const v2NeedleA = ref(60)
-const v2NeedleB = ref(140)
-const v2Needles = computed<NeedleConfig[]>(() => [
-  { value: v2NeedleA.value, color: '#3b82f6', label: 'AVG', width: 3 },
-  { value: v2NeedleB.value, color: '#ef4444', label: 'MAX', width: 2 },
-])
-
-const v2LogVal = ref(500)
-function fmtLog(v: number): string {
-  return v >= 1000 ? `${(v/1000).toFixed(v >= 10000 ? 0 : 1)}k` : Math.round(v).toString()
-}
-function fmtLogVal(v: number): string {
-  return v >= 1000 ? `${(v/1000).toFixed(1)}k` : v.toString()
-}
-
-const v2Currency = ref(4500)
-function fmtCurrency(v: number): string {
-  return v >= 1000 ? `$${(v/1000).toFixed(0)}k` : `$${v}`
-}
-function fmtCurrencyVal(v: number): string {
-  return `$${v.toLocaleString()}`
-}
-
-const v2ConcentricData: ConcentricArc[] = [
-  { radius: 80, color: '#3b82f6', value: 55, max: 100, width: 5 },
-  { radius: 70, color: '#22c55e', value: 40, max: 100, width: 5 },
-]
-
-const v2SparkVal = ref(50)
-const v2History = ref([20, 35, 50, 42, 60, 55, 45, 50])
-watch(v2SparkVal, (v) => {
-  v2History.value = [...v2History.value.slice(-14), v]
-})
-
-// ===== V2 code examples =====
-const needlesCode = `import type { NeedleConfig } from 'vue-advanced-speedometer'
-
-const needles: NeedleConfig[] = [
-  { value: 60,  color: '#3b82f6', label: 'AVG', width: 3 },
-  { value: 140, color: '#ef4444', label: 'MAX', width: 2 },
-]
-
-<VueSpeedometer :max="200" :needles="needles" />`
-
-const logCode = `<VueSpeedometer
-  :value="500"
-  :min="1"
-  :max="10000"
-  :logarithmic="true"
-  :formatTick="(v) => v >= 1000 ? v/1000 + 'k' : v"
-  :majorTicks="4"
-/>`
-
-const formatTickCode = `<VueSpeedometer
-  :value="4500"
-  :max="10000"
-  :formatTick="(v) => v >= 1000 ? '$' + v/1000 + 'k' : '$' + v"
-  :formatValue="(v) => '$' + v.toLocaleString()"
-  :majorTicks="5"
-/>`
-
-const concentricCode = `import type { ConcentricArc } from 'vue-advanced-speedometer'
-
-const arcs: ConcentricArc[] = [
-  { radius: 80, color: '#3b82f6', value: 55, max: 100, width: 5 },
-  { radius: 70, color: '#22c55e', value: 40, max: 100, width: 5 },
-]
-
-<VueSpeedometer :value="75" :max="100" :concentricArcs="arcs" />`
-
-const tooltipsCode = `<VueSpeedometer
-  :value="95"
-  :max="180"
-  :segments="segments"
-  :tooltips="true"
-/>`
-
-const sparklineCode = `const history = ref([20, 35, 50, 42, 60, 55, 45, 50])
-
-<VueSpeedometer
-  :value="currentValue"
-  :max="100"
-  :valueHistory="history"
-/>`
-
-// ===== Shared functions =====
+// ===== Methods =====
 function getInstallCommand() {
   return packageManagers.find(p => p.name === activePackage.value)?.command || ''
 }
 
-function copyToClipboard(text: string) {
-  navigator.clipboard.writeText(text)
+async function copyToClipboard(text: string) {
+  try {
+    await navigator.clipboard.writeText(text)
+    // You could add a toast notification here
+  } catch (err) {
+    console.error('Failed to copy:', err)
+  }
+}
+
+function toggleMobileMenu() {
+  mobileMenuOpen.value = !mobileMenuOpen.value
+}
+
+function handleNavClick(id: string) {
+  mobileMenuOpen.value = false
+  const element = document.getElementById(id)
+  if (element) {
+    const offset = 80
+    const elementPosition = element.getBoundingClientRect().top
+    const offsetPosition = elementPosition + window.pageYOffset - offset
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth'
+    })
+  }
+}
+
+function handleTocClick(id: string) {
+  handleNavClick(id)
 }
 
 function animateToRandom() {
-  ;(methodGaugeRef.value as any)?.animateTo(Math.floor(Math.random() * 100), 800)
+  ; (methodGaugeRef.value as any)?.animateTo(Math.floor(Math.random() * 100), 800)
 }
 
 function animateToValue(val: number) {
-  ;(methodGaugeRef.value as any)?.animateTo(val, 500)
+  ; (methodGaugeRef.value as any)?.animateTo(val, 500)
 }
 
 function exportPNG() {
-  ;(exportGaugeRef.value as any)?.exportAs('png')
+  ; (exportGaugeRef.value as any)?.exportAs('png')
 }
 
 function exportSVG() {
-  ;(exportGaugeRef.value as any)?.exportAs('svg')
+  ; (exportGaugeRef.value as any)?.exportAs('svg')
 }
 
-function triggerEventDemo() {
-  eventOutput.value = `value-change fired at ${new Date().toLocaleTimeString()}`
+function toggleTheme() {
+  isDark.value = !isDark.value
+  document.documentElement.classList.toggle('dark', isDark.value)
 }
+
+// ===== Scroll Spy =====
+function updateActiveSection() {
+  const sections = navItems.map(item => ({
+    id: item.id,
+    element: document.getElementById(item.id)
+  }))
+
+  const scrollPosition = window.scrollY + 100
+
+  for (const section of sections) {
+    if (section.element) {
+      const { offsetTop, offsetHeight } = section.element
+      if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+        activeSection.value = section.id
+        break
+      }
+    }
+  }
+}
+
+function handleScroll() {
+  updateActiveSection()
+
+  if (navRef.value) {
+    isNavSticky.value = window.scrollY > navRef.value.offsetTop
+  }
+}
+
+// ===== Lifecycle =====
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+  handleScroll()
+  updateActiveSection()
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>
-/* ============== Variables ============== */
-.speedometer-docs {
+/* ===== CSS Variables ===== */
+.docs {
   --primary: #2563eb;
-  --primary-light: #eff6ff;
-  --primary-mid: #bfdbfe;
-  --text-heading: #0f172a;
-  --text-body: #475569;
-  --text-muted: #94a3b8;
-  --border: #e2e8f0;
-  --surface: #f8fafc;
-  --surface-2: #f1f5f9;
-  --white: #ffffff;
-  --code-bg: #0f172a;
-  --code-text: #e2e8f0;
-  --radius: 12px;
-  --radius-lg: 16px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, .06), 0 1px 2px rgba(0, 0, 0, .04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, .08);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, .1);
+  --primary-light: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --primary-bg: #eff6ff;
+  --secondary: #8b5cf6;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-inverse: #ffffff;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --border-light: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Fira Code', 'JetBrains Mono', monospace;
+}
 
-  max-width: 1300px;
-  margin: 0 auto;
-  padding: 0 24px 64px;
-  font-family: 'Geist', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  color: var(--text-body);
-  background: var(--white);
+.docs.dark {
+  --primary: #3b82f6;
+  --primary-light: #60a5fa;
+  --primary-dark: #2563eb;
+  --primary-bg: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-inverse: #0f172a;
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --border-light: #334155;
+  --border-medium: #475569;
+}
+
+/* ===== Base ===== */
+.docs {
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+  background: var(--bg-primary);
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* ============== Header ============== */
-.docs-header {
-  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 60%, #1d3461 100%);
-  border-radius: 0 0 24px 24px;
-  padding: 56px 40px 48px;
-  margin-bottom: 36px;
+/* ===== Skip Link ===== */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--primary);
   color: white;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  padding: 8px 16px;
+  z-index: 100;
+  text-decoration: none;
 }
 
-.docs-header::before {
-  content: '';
+.skip-link:focus {
+  top: 0;
+}
+
+/* ===== Header ===== */
+.header {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: var(--text-inverse);
+  overflow: hidden;
+  padding: 3rem 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding: 4rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    padding: 5rem 2rem;
+  }
+}
+
+.header-bg {
   position: absolute;
   inset: 0;
-  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
+}
+
+.header-bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+}
+
+.header-bg-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.5;
 }
 
 .header-content {
   position: relative;
-  max-width: 680px;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
-.header-badge {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.12);
+.header-top {
+  margin-bottom: 2rem;
+}
+
+.version-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 100px;
-  padding: 4px 14px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  margin-bottom: 20px;
+  border-radius: 9999px;
+  font-size: 0.875rem;
   backdrop-filter: blur(4px);
 }
 
-.header-content h1 {
-  font-size: 2.6rem;
-  font-weight: 800;
-  margin: 0 0 12px;
-  letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  line-height: 1.1;
+.version-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.header-icon {
-  font-size: 2.2rem;
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.header-main {
+  max-width: 48rem;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 0 0 1rem;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .title {
+    font-size: 3.5rem;
+  }
+}
+
+.title-icon {
+  font-size: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .title-icon {
+    font-size: 3rem;
+  }
 }
 
 .subtitle {
-  font-size: 1.05rem;
-  opacity: 0.8;
-  margin-bottom: 24px;
+  font-size: 1.125rem;
+  opacity: 0.9;
+  margin: 0 0 2rem;
   line-height: 1.5;
 }
 
-.badge-group {
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: 1.25rem;
+  }
+}
+
+.tech-badges {
   display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.badge {
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.badge-green {
-  background: #dcfce7;
-  color: #16a34a;
-}
-
-.badge-blue {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
-
-.badge-purple {
-  background: #ede9fe;
-  color: #7c3aed;
-}
-
-/* ============== Navigation ============== */
-.docs-nav {
-  display: flex;
-  gap: 2px;
   flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tech-badge {
+  padding: 0.375rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.header-stats {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .header-stats {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+    backdrop-filter: blur(8px);
+  }
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  opacity: 0.7;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 2rem;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== Navigation ===== */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.3s;
+}
+
+.nav-sticky {
+  box-shadow: var(--shadow-md);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0.75rem 1.5rem;
+}
+
+.mobile-menu-btn {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  margin-bottom: 56px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 6px;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+
+.mobile-menu-btn:hover {
+  background: var(--bg-secondary);
+}
+
+@media (min-width: 768px) {
+  .mobile-menu-btn {
+    display: none;
+  }
+}
+
+.nav-links {
+  display: none;
+  gap: 0.25rem;
+}
+
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+  }
+}
+
+.nav-links.mobile-open {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+  padding: 1rem;
+  box-shadow: var(--shadow-lg);
 }
 
 .nav-link {
-  padding: 7px 16px;
-  color: var(--text-muted);
+  position: relative;
+  padding: 0.5rem 1rem;
+  color: var(--text-secondary);
   text-decoration: none;
   font-size: 0.875rem;
   font-weight: 500;
-  border-radius: 100px;
-  transition: all 0.15s ease;
+  border-radius: var(--radius-md);
+  transition: all 0.2s;
   white-space: nowrap;
 }
 
 .nav-link:hover {
-  background: var(--white);
-  color: var(--text-heading);
-  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
 }
 
-/* ============== Section Styles ============== */
-.docs-section {
-  margin-bottom: 72px;
-  scroll-margin-top: 24px;
-}
-
-.section-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+.nav-link.active {
   color: var(--primary);
-  margin-bottom: 8px;
+  background: var(--primary-bg);
 }
 
-.docs-section h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: var(--text-heading);
-  margin: 0 0 8px;
-  letter-spacing: -0.3px;
-}
-
-.section-desc {
-  color: var(--text-muted);
-  font-size: 0.975rem;
-  margin: 0 0 28px;
-  line-height: 1.6;
-}
-
-.docs-section h3 {
-  font-size: 1rem;
+.nav-badge {
+  margin-left: 0.375rem;
+  padding: 0.125rem 0.375rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 9999px;
+  font-size: 0.625rem;
   font-weight: 600;
-  color: var(--text-heading);
-  margin: 20px 0 10px;
 }
 
-/* ============== Install Tabs ============== */
-.install-tabs {
+.theme-toggle {
   display: flex;
-  gap: 4px;
-  margin-bottom: 12px;
-  background: var(--surface-2);
-  padding: 4px;
-  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+}
+
+.theme-toggle:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* ===== Main Layout ===== */
+.main {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.main-container {
+  display: flex;
+  gap: 2rem;
+}
+
+/* ===== Table of Contents ===== */
+.toc {
+  display: none;
+  width: 14rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .toc {
+    display: block;
+  }
+}
+
+.toc-sticky {
+  position: sticky;
+  top: 6rem;
+}
+
+.toc-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+  margin: 0 0 1rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+
+.toc-item {
+  margin-bottom: 0.5rem;
+}
+
+.toc-link {
+  display: block;
+  padding: 0.375rem 0.75rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  border-left: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.toc-link:hover {
+  color: var(--text-primary);
+  border-left-color: var(--border-medium);
+}
+
+.toc-link.active {
+  color: var(--primary);
+  border-left-color: var(--primary);
+  font-weight: 500;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+  transition: all 0.2s;
+}
+
+.github-link:hover {
+  background: var(--bg-tertiary);
+  border-color: var(--border-medium);
+}
+
+/* ===== Content ===== */
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ===== Sections ===== */
+.section {
+  margin-bottom: 4rem;
+  scroll-margin-top: 5rem;
+}
+
+.section-header {
+  margin-bottom: 1.5rem;
+}
+
+.section-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: var(--primary-bg);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  margin-bottom: 0.5rem;
+}
+
+.feature-tag {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.dark .feature-tag {
+  background: #854d0e;
+  color: #fbbf24;
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 2rem;
+  }
+}
+
+.section-description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ===== Package Managers ===== */
+.package-managers {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+  background: var(--bg-secondary);
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
   width: fit-content;
 }
 
-.tab-btn {
-  padding: 6px 18px;
-  border: none;
+.package-btn {
+  padding: 0.5rem 1.25rem;
   background: transparent;
-  border-radius: 6px;
-  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-sm);
   font-size: 0.875rem;
-  color: var(--text-muted);
+  font-weight: 500;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.15s;
+  transition: all 0.2s;
 }
 
-.tab-btn.active {
-  background: var(--white);
-  color: var(--text-heading);
+.package-btn.active {
+  background: var(--bg-primary);
+  color: var(--text-primary);
   box-shadow: var(--shadow-sm);
 }
 
-.setup-tabs-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-top: 8px;
-}
-
-/* ============== Code Blocks ============== */
-.code-block {
-  position: relative;
-  background: var(--code-bg);
-  border-radius: var(--radius);
-  padding: 18px 20px;
-  margin: 12px 0;
-  overflow-x: auto;
-}
-
-.code-block.small {
-  padding: 12px 16px;
-}
-
-.code-lang {
-  position: absolute;
-  top: 10px;
-  right: 50px;
-  font-size: 0.7rem;
-  color: #64748b;
-  font-family: monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.code-block pre {
-  margin: 0;
-}
-
-.code-block code {
-  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.875rem;
-  color: var(--code-text);
-  line-height: 1.7;
-}
-
-.copy-btn {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  padding: 4px 10px;
-  background: #1e293b;
-  border: 1px solid #334155;
-  border-radius: 6px;
-  color: #94a3b8;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.copy-btn:hover {
-  background: #334155;
-  color: #f1f5f9;
-}
-
-/* ============== Example Cards ============== */
-.example-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.examples-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 24px;
-}
-
-.example-card {
-  background: var(--white);
-  border: 1px solid var(--border);
+/* ===== Code Cards ===== */
+.code-card {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  transition: box-shadow 0.2s;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
-.example-card:hover {
-  box-shadow: var(--shadow-md);
+.code-card.compact {
+  margin-bottom: 0;
 }
 
-.example-card-header {
+.code-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  padding: 0.75rem 1rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
 }
 
-.example-title {
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: var(--text-heading);
-}
-
-.example-chip {
+.code-language {
   font-size: 0.75rem;
   font-weight: 600;
-  background: var(--primary-light);
-  color: var(--primary);
-  padding: 2px 10px;
-  border-radius: 100px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.example-chip-dark {
-  background: #1e293b;
-  color: #94a3b8;
-}
-
-.gauge-preview {
+.copy-button {
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 160px;
-  background: var(--surface);
-  border-radius: 10px;
-  margin-bottom: 14px;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.gauge-preview-dark {
+.copy-button:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.code-content {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.code-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* ===== Setup Grid ===== */
+.setup-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .setup-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.setup-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.75rem;
+}
+
+/* ===== Examples Grid ===== */
+.examples-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .examples-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.example-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.example-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.example-preview.dark-bg {
   background: #1e293b;
 }
 
-/* ============== Props Table ============== */
-.props-table-container {
+.example-info {
+  padding: 1.5rem;
+}
+
+.example-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.example-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.example-badge {
+  padding: 0.25rem 0.75rem;
+  background: var(--primary-bg);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 9999px;
+}
+
+/* ===== Playground ===== */
+.playground-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.playground-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.playground-controls {
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .playground-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.control-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.control-value {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.control-slider {
+  width: 100%;
+  height: 0.375rem;
+  background: var(--border-light);
+  border-radius: 9999px;
+  appearance: none;
+}
+
+.control-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+
+.control-select {
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: all 0.2s;
+}
+
+.control-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ===== Features Grid ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.feature-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.feature-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.feature-content {
+  padding: 1.5rem;
+}
+
+.feature-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 0.5rem;
+}
+
+.feature-badge {
+  padding: 0.125rem 0.375rem;
+  background: var(--primary);
+  color: white;
+  font-size: 0.625rem;
+  font-weight: 600;
+  border-radius: 9999px;
+}
+
+.feature-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.feature-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.control-label-small {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+.control-value-small {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ===== Props Table ===== */
+.props-table-wrapper {
   overflow-x: auto;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 36px;
+  margin-top: 1.5rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
 }
 
 .props-table {
   width: 100%;
   border-collapse: collapse;
-  text-align: left;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
 }
 
 .props-table th {
-  background: var(--surface);
-  padding: 12px 16px;
+  padding: 1rem;
+  background: var(--bg-secondary);
   font-weight: 600;
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  text-align: left;
+  border-bottom: 1px solid var(--border-light);
 }
 
 .props-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border);
-  vertical-align: middle;
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-light);
+  color: var(--text-secondary);
 }
 
 .props-table tr:last-child td {
@@ -1197,1011 +1826,582 @@ function triggerEventDemo() {
 }
 
 .prop-name {
-  background: var(--primary-light);
+  padding: 0.25rem 0.5rem;
+  background: var(--primary-bg);
   color: var(--primary);
-  padding: 2px 8px;
-  border-radius: 5px;
-  font-size: 0.82rem;
-  font-weight: 600;
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
 }
 
 .prop-type {
-  color: #7c3aed;
-  background: #faf5ff;
-  padding: 2px 8px;
-  border-radius: 5px;
-  font-size: 0.82rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-tertiary);
+  color: var(--secondary);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
 }
 
 .prop-default {
-  color: #065f46;
-  background: #ecfdf5;
-  padding: 2px 8px;
-  border-radius: 5px;
-  font-size: 0.82rem;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-tertiary);
+  color: var(--success);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
 }
 
 .prop-desc {
-  color: var(--text-body);
-  font-size: 0.875rem;
+  color: var(--text-secondary);
 }
 
-/* ============== Playground ============== */
-.playground {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-.playground-header {
-  padding: 18px 24px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: var(--white);
-}
-
-.playground-title {
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-heading);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.playground-subtitle {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
-
-.playground-grid {
+/* ===== Slot Demo ===== */
+.slot-demo {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 0;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
 }
 
-.playground-controls {
-  padding: 24px;
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background: var(--white);
+@media (min-width: 768px) {
+  .slot-demo {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.control-group,
-.select-group {
+.slot-preview {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.control-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.control-item label {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-
-.control-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-body);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.control-value {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--primary);
-  font-variant-numeric: tabular-nums;
-}
-
-.control-item input[type="range"] {
-  width: 100%;
-  accent-color: var(--primary);
-  height: 4px;
-  border-radius: 4px;
-}
-
-.control-item select {
-  padding: 7px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  font-size: 0.875rem;
-  color: var(--text-heading);
-  cursor: pointer;
-  outline: none;
-  transition: border-color 0.15s;
-}
-
-.control-item select:focus {
-  border-color: var(--primary);
-}
-
-.playground-preview {
-  display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 32px;
-  background: var(--surface);
-  min-height: 260px;
-}
-
-/* ============== Custom Center ============== */
-.custom-center {
-  text-align: center;
-}
-
-.big-value {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--text-heading);
-  line-height: 1;
-}
-
-.small-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin: 4px 0 2px;
-}
-
-.percentage-val {
-  font-size: 12px;
-  color: var(--text-muted);
-}
-
-/* ============== Slots ============== */
-.slot-card {
-  background: var(--white);
-  border: 1px solid var(--border);
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 24px;
+}
+
+.slot-info {
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
 }
 
 .slot-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
 .slot-name {
+  padding: 0.25rem 0.75rem;
   background: var(--primary);
   color: white;
-  padding: 4px 14px;
-  border-radius: 100px;
+  border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 600;
 }
 
 .slot-badge {
-  background: var(--surface-2);
-  color: var(--text-muted);
-  padding: 3px 10px;
-  border-radius: 100px;
+  padding: 0.25rem 0.5rem;
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
   font-size: 0.75rem;
-  font-weight: 600;
+  border-radius: 9999px;
 }
 
 .slot-desc {
-  color: var(--text-body);
-  margin: 0 0 16px;
-}
-
-.slot-props-box {
-  background: var(--surface);
-  border-radius: 8px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.slot-prop-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+  line-height: 1.5;
 }
 
-.slot-prop-row code {
-  background: var(--primary-light);
-  color: var(--primary);
-  padding: 2px 8px;
-  border-radius: 5px;
-  font-size: 0.82rem;
-  white-space: nowrap;
-}
-
-.slot-prop-row span {
-  color: var(--text-muted);
-}
-
-/* ============== Events ============== */
-.events-list {
+.slot-props {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.75rem;
+}
+
+.slot-prop {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+}
+
+.slot-prop code {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--primary);
+}
+
+.slot-prop span {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+/* ===== Custom Center ===== */
+.custom-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.custom-center-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.custom-center-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.custom-center-percentage {
+  font-size: 0.875rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ===== Events Grid ===== */
+.events-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .event-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  transition: box-shadow 0.15s;
-}
-
-.event-card:hover {
-  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
 }
 
 .event-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
   flex-wrap: wrap;
 }
 
 .event-name {
-  background: #1e293b;
-  color: #f8fafc;
-  padding: 4px 12px;
-  border-radius: 100px;
+  padding: 0.25rem 0.75rem;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 600;
 }
 
-.event-payload {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  background: var(--surface-2);
-  padding: 2px 8px;
-  border-radius: 5px;
+.event-type {
+  padding: 0.125rem 0.5rem;
+  background: var(--primary-bg);
+  color: var(--primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
 }
 
 .event-desc {
-  color: var(--text-body);
   font-size: 0.875rem;
-  margin: 4px 0 0;
-}
-
-.event-demo {
-  margin-top: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.demo-btn {
-  padding: 7px 16px;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 7px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-  white-space: nowrap;
-}
-
-.demo-btn:hover {
-  background: #1d4ed8;
-}
-
-.demo-btn:active {
-  transform: scale(0.97);
-}
-
-.event-output {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  background: var(--surface);
-  padding: 6px 12px;
-  border-radius: 7px;
-  flex: 1;
-}
-
-.event-output-dot {
-  width: 6px;
-  height: 6px;
-  background: #22c55e;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* ============== Methods ============== */
-.methods-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 20px;
-}
-
-.method-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 22px;
-}
-
-.method-header {
-  margin-bottom: 10px;
-}
-
-.method-name {
-  background: var(--surface-2);
-  color: var(--text-heading);
-  padding: 5px 14px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.method-desc {
-  color: var(--text-body);
-  font-size: 0.875rem;
-  margin: 0 0 14px;
-}
-
-.method-signature {
-  background: var(--code-bg);
-  color: var(--code-text);
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.8rem;
-  margin-bottom: 16px;
-}
-
-.method-demo {
-  background: var(--surface);
-  padding: 16px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-}
-
-.demo-controls {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.demo-controls button {
-  flex: 1;
-  padding: 8px 10px;
-  background: var(--white);
-  border: 1px solid var(--border);
-  color: var(--text-heading);
-  border-radius: 7px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.15s;
-}
-
-.demo-controls button:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: white;
-}
-
-/* ============== Types ============== */
-.types-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-}
-
-.type-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-}
-
-.type-card-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-
-.type-card h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-heading);
-}
-
-/* ============== V2 Example Styles ============== */
-.v2-desc {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin: 0 0 14px;
+  color: var(--text-secondary);
+  margin: 0;
   line-height: 1.5;
 }
 
-.v2-controls {
-  width: 100%;
+/* ===== Methods Grid ===== */
+.methods-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .methods-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.method-card {
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+}
+
+.method-header {
+  margin-bottom: 0.75rem;
+}
+
+.method-name {
+  padding: 0.25rem 0.75rem;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.method-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.method-demo {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 12px 0 4px;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
 }
 
-.v2-controls label {
+.method-actions {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.85rem;
-  font-weight: 500;
-  color: var(--text-body);
+  gap: 0.5rem;
 }
 
-.v2-controls input[type="range"] {
+.method-btn {
   flex: 1;
-  accent-color: var(--primary);
-  height: 4px;
-  margin: 0 0 12px;
-}
-
-/* ============== Developer Section ============== */
-.developer-section {
-  margin-top: 48px;
-  padding: 56px 24px;
-  background: linear-gradient(135deg, #1e3a5f 0%, #1a1a2e 50%, #16213e 100%);
-  border-radius: 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.developer-section::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 30% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 70% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
-  pointer-events: none;
-}
-
-.developer-card {
-  position: relative;
-  z-index: 1;
-  max-width: 480px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.developer-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 8px;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-  animation: avatar-glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes avatar-glow {
-  from { box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3); }
-  to { box-shadow: 0 8px 40px rgba(118, 75, 162, 0.4); }
-}
-
-.avatar-initial {
-  font-size: 2rem;
-  font-weight: 800;
-  color: white;
-  line-height: 1;
-}
-
-.developer-name {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0;
-  letter-spacing: -0.3px;
-}
-
-.developer-role {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.5);
-  margin: 0 0 16px;
+  padding: 0.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
   font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.developer-links {
+.method-btn:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
+}
+
+/* ===== Types Grid ===== */
+.types-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .types-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.type-card {
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+}
+
+.type-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-tertiary);
+  margin-bottom: 0.5rem;
+}
+
+.type-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 1rem;
+}
+
+/* ===== Author Section ===== */
+.author-section {
+  margin-top: 3rem;
+}
+
+.author-card {
   display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  border-radius: var(--radius-xl);
+  color: white;
 }
 
-.dev-link {
+.author-avatar {
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  font-size: 1.5rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.author-initial {
+  color: white;
+}
+
+.author-info {
+  flex: 1;
+}
+
+.author-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.author-role {
+  font-size: 0.875rem;
+  opacity: 0.8;
+  margin: 0 0 1rem;
+}
+
+.author-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.author-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  color: white;
   text-decoration: none;
-  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  transition: all 0.2s;
 }
 
-.dev-link-email {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #a5b4fc;
+.author-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-.dev-link-email:hover {
-  background: rgba(102, 126, 234, 0.2);
-  border-color: rgba(102, 126, 234, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+/* ===== Footer ===== */
+.footer {
+  margin-top: 4rem;
+  padding: 2rem 1.5rem;
+  border-top: 1px solid var(--border-light);
 }
 
-.dev-link-github {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+.footer-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+}
+
+.footer-content p {
+  margin: 0.25rem 0;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .main {
+    padding: 1.5rem 1rem;
+  }
+
+  .section {
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .playground-preview {
+    padding: 2rem 1rem;
+  }
+
+  .feature-preview {
+    padding: 1.5rem;
+  }
+
+  .author-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .author-links {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 2rem 1rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .title-icon {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .tech-badges {
+    flex-direction: column;
+  }
+
+  .nav-links.mobile-open {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .example-preview {
+    padding: 1.5rem;
+  }
+
+  .example-info {
+    padding: 1rem;
+  }
+
+  .playground-controls {
+    padding: 1rem;
+  }
+
+  .feature-content {
+    padding: 1rem;
+  }
+
+  .method-actions {
+    flex-direction: column;
+  }
+
+  .author-links {
+    flex-direction: column;
+  }
+
+  .author-link {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ===== Dark Mode Overrides ===== */
+.dark .code-content code {
   color: #e2e8f0;
 }
 
-.dev-link-github:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.25);
+.dark .example-preview.dark-bg {
+  background: #0f172a;
+}
+
+.dark .feature-badge {
+  background: var(--primary);
+}
+
+.dark .slot-name {
+  background: var(--primary);
+}
+
+.dark .method-name {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.example-card,
+.feature-card,
+.method-card,
+.event-card,
+.type-card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.example-card:hover,
+.feature-card:hover,
+.method-card:hover,
+.event-card:hover,
+.type-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-lg);
 }
 
-.developer-tagline {
-  margin: 16px 0 0;
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.4);
-  font-style: italic;
-}
+/* ===== Print Styles ===== */
+@media print {
 
-/* ============== Footer ============== */
-.docs-footer {
-  margin-top: 64px;
-  padding: 24px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-
-.footer-inner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  flex-wrap: wrap;
-}
-
-.footer-divider {
-  color: var(--border);
-}
-
-/* ============== Responsive ============== */
-
-/* --- Tablet (≤ 1024px) --- */
-@media (max-width: 1024px) {
-  .speedometer-docs {
-    padding: 0 16px 48px;
+  .nav,
+  .toc,
+  .theme-toggle,
+  .mobile-menu-btn,
+  .copy-button,
+  .method-actions,
+  .feature-controls,
+  .playground-controls,
+  .footer {
+    display: none !important;
   }
 
-  .docs-header {
-    padding: 44px 28px 40px;
+  .header {
+    background: none;
+    color: black;
+    padding: 1rem;
   }
 
-  .header-content h1 {
-    font-size: 2.2rem;
-  }
-
-  .playground-grid {
-    grid-template-columns: 260px 1fr;
-  }
-
-  .examples-grid {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  }
-
-  .methods-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-}
-
-/* --- Small Tablet / Large Phone (≤ 768px) --- */
-@media (max-width: 768px) {
-  .speedometer-docs {
-    padding: 0 12px 40px;
-  }
-
-  .docs-header {
-    padding: 36px 20px 32px;
-    border-radius: 0 0 16px 16px;
-    margin-bottom: 24px;
-  }
-
-  .header-content h1 {
-    font-size: 1.7rem;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .header-icon {
-    font-size: 1.8rem;
-  }
-
-  .subtitle {
-    font-size: 0.92rem;
-  }
-
-  .badge-group {
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  /* Navigation — horizontal scroll on mobile */
-  .docs-nav {
-    border-radius: 14px;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    margin-bottom: 36px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .docs-nav::-webkit-scrollbar {
+  .header-bg {
     display: none;
   }
 
-  .nav-link {
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    flex-shrink: 0;
+  .section {
+    break-inside: avoid;
   }
 
-  /* Sections */
-  .docs-section {
-    margin-bottom: 48px;
-  }
-
-  .docs-section h2 {
-    font-size: 1.4rem;
-  }
-
-  .section-desc {
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-  }
-
-  /* Setup columns */
-  .setup-tabs-content {
-    grid-template-columns: 1fr;
-  }
-
-  /* Playground */
-  .playground-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .playground-controls {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .playground-header {
-    flex-direction: column;
-    gap: 6px;
-    align-items: flex-start;
-    padding: 14px 18px;
-  }
-
-  /* Grids */
-  .example-grid,
-  .examples-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .methods-grid,
-  .types-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* Props table — make it scroll horizontally */
-  .props-table-container {
-    margin-left: -12px;
-    margin-right: -12px;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-  }
-
-  .props-table th,
-  .props-table td {
-    padding: 10px 12px;
-    font-size: 0.82rem;
-  }
-
-  /* Events */
-  .event-demo {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .event-header {
-    gap: 8px;
-  }
-
-  /* Code blocks */
-  .code-block {
-    padding: 14px 14px;
-    border-radius: 10px;
-    font-size: 0.82rem;
-  }
-
-  .code-block code {
-    font-size: 0.8rem;
-  }
-
-  /* Footer */
-  .footer-inner {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .footer-divider {
-    display: none;
-  }
-
-  /* V2 controls */
-  .v2-controls label {
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 0.8rem;
-  }
-
-  /* Developer Section */
-  .developer-section {
-    padding: 40px 20px;
-    margin-top: 32px;
-    border-radius: 16px;
-  }
-}
-
-/* --- Phone (≤ 480px) --- */
-@media (max-width: 480px) {
-  .speedometer-docs {
-    padding: 0 8px 32px;
-  }
-
-  .docs-header {
-    padding: 28px 16px 24px;
-    border-radius: 0 0 12px 12px;
-    margin-bottom: 16px;
-  }
-
-  .header-content h1 {
-    font-size: 1.35rem;
-  }
-
-  .header-badge {
-    font-size: 0.7rem;
-    padding: 3px 10px;
-  }
-
-  .subtitle {
-    font-size: 0.82rem;
-  }
-
-  .badge {
-    font-size: 0.7rem;
-    padding: 3px 9px;
-  }
-
-  .docs-nav {
-    margin-bottom: 24px;
-    padding: 4px;
-  }
-
-  .nav-link {
-    font-size: 0.72rem;
-    padding: 5px 10px;
-  }
-
-  .docs-section h2 {
-    font-size: 1.2rem;
-  }
-
-  .section-desc {
-    font-size: 0.84rem;
-  }
-
-  /* Example cards */
-  .example-card {
-    padding: 14px;
-  }
-
-  .gauge-preview {
-    min-height: 120px;
-  }
-
-  /* Playground */
-  .playground-preview {
-    padding: 20px 12px;
-    min-height: 200px;
-  }
-
-  .playground-controls {
-    padding: 16px;
-  }
-
-  /* Slot card */
-  .slot-card {
-    padding: 16px;
-  }
-
-  .slot-prop-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-  }
-
-  /* Method card */
-  .method-card {
-    padding: 16px;
-  }
-
-  .method-demo {
-    padding: 12px;
-  }
-
-  /* Event card */
-  .event-card {
-    padding: 14px;
-  }
-
-  /* Type card */
-  .type-card {
-    padding: 14px;
-  }
-
-  /* Code blocks */
-  .code-block {
-    padding: 10px 10px;
-    border-radius: 8px;
-    margin: 8px 0;
-  }
-
-  .code-block code {
-    font-size: 0.72rem;
-    line-height: 1.5;
-  }
-
-  .code-lang {
-    font-size: 0.6rem;
-    top: 6px;
-    right: 40px;
-  }
-
-  .copy-btn {
-    padding: 3px 8px;
-    font-size: 0.68rem;
-    top: 6px;
-    right: 8px;
-  }
-
-  /* Install tabs */
-  .install-tabs {
-    width: 100%;
-  }
-
-  .tab-btn {
-    flex: 1;
-    text-align: center;
-    padding: 6px 12px;
-    font-size: 0.8rem;
-  }
-
-  /* Props table — stack on small phones */
-  .props-table thead {
-    display: none;
-  }
-
-  .props-table,
-  .props-table tbody,
-  .props-table tr,
-  .props-table td {
-    display: block;
-    width: 100%;
-  }
-
-  .props-table tr {
-    padding: 12px;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .props-table td {
-    padding: 4px 0;
-    border-bottom: none;
-    font-size: 0.82rem;
-  }
-
-  .props-table td::before {
-    content: attr(data-label);
-    font-weight: 600;
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    display: block;
-    margin-bottom: 2px;
-  }
-
-  /* Footer */
-  .docs-footer {
-    margin-top: 32px;
-    padding: 16px 8px;
-  }
-
-  .footer-inner {
-    font-size: 0.78rem;
-  }
-
-  /* Developer Section */
-  .developer-section {
-    padding: 32px 16px;
-    margin-top: 24px;
-    border-radius: 12px;
-  }
-  .developer-name {
-    font-size: 1.4rem;
-  }
-  .developer-avatar {
-    width: 64px;
-    height: 64px;
-  }
-  .avatar-initial {
-    font-size: 1.5rem;
-  }
-  .developer-links {
-    flex-direction: column;
-    width: 100%;
-  }
-  .dev-link {
-    width: 100%;
-    justify-content: center;
+  .code-card {
+    border: 1px solid #ddd;
   }
 }
 </style>

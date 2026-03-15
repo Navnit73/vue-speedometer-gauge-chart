@@ -26,24 +26,14 @@
     <section class="controls-bar">
       <div class="control-group">
         <label class="control-label">Value</label>
-        <input
-          type="range"
-          :min="0"
-          :max="180"
-          v-model.number="gaugeValue"
-          class="slider"
-        />
+        <input type="range" :min="0" :max="180" v-model.number="gaugeValue" class="slider" />
         <span class="control-value">{{ gaugeValue }}</span>
       </div>
       <div class="control-group">
         <label class="control-label">Theme</label>
         <div class="theme-pills">
-          <button
-            v-for="t in themes"
-            :key="t"
-            :class="['theme-pill', { active: activeTheme === t }]"
-            @click="activeTheme = t"
-          >
+          <button v-for="t in themes" :key="t" :class="['theme-pill', { active: activeTheme === t }]"
+            @click="activeTheme = t">
             {{ t }}
           </button>
         </div>
@@ -80,45 +70,21 @@
         <!-- Semi Circle -->
         <div class="gauge-card">
           <h3 class="card-label">Semi Circle</h3>
-          <VueSpeedometer
-            ref="semiRef"
-            :value="gaugeValue"
-            :max="180"
-            type="semi"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-            :alerts="alerts"
-            :tooltips="true"
-            @value-change="onValueChange"
-            @segment-enter="onSegmentEnter"
-            @animation-end="onAnimationEnd"
-          />
+          <VueSpeedometer ref="semiRef" :value="gaugeValue" :max="180" type="semi" :theme="activeTheme"
+            :animationDuration="animDuration" :easing="easingType" :alerts="alerts" :tooltips="true"
+            @value-change="onValueChange" @segment-enter="onSegmentEnter" @animation-end="onAnimationEnd" />
         </div>
         <!-- Full Circle -->
         <div class="gauge-card">
           <h3 class="card-label">Full Circle</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            type="full"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-            :alerts="alerts"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" type="full" :theme="activeTheme"
+            :animationDuration="animDuration" :easing="easingType" :alerts="alerts" />
         </div>
         <!-- Quarter -->
         <div class="gauge-card">
           <h3 class="card-label">Quarter Gauge</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            type="quarter"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" type="quarter" :theme="activeTheme"
+            :animationDuration="animDuration" :easing="easingType" />
         </div>
       </div>
     </section>
@@ -129,25 +95,13 @@
       <div class="gauge-grid two-col">
         <div class="gauge-card">
           <h3 class="card-label">Cool Gradient</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :gradient="['#00f5d4','#00bbf9','#9b5de5']"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" :gradient="['#00f5d4', '#00bbf9', '#9b5de5']"
+            :theme="activeTheme" :animationDuration="animDuration" :easing="easingType" />
         </div>
         <div class="gauge-card">
           <h3 class="card-label">Warm Gradient</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :gradient="['#00ff88','#ffee00','#ff3300']"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" :gradient="['#00ff88', '#ffee00', '#ff3300']"
+            :theme="activeTheme" :animationDuration="animDuration" :easing="easingType" />
         </div>
       </div>
     </section>
@@ -158,24 +112,13 @@
       <div class="gauge-grid two-col">
         <div class="gauge-card">
           <h3 class="card-label">Custom Segments</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :segments="customSegments"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" :segments="customSegments" :theme="activeTheme"
+            :animationDuration="animDuration" :easing="easingType" />
         </div>
         <div class="gauge-card">
           <h3 class="card-label">Custom Center Slot</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          >
+          <VueSpeedometer :value="gaugeValue" :max="180" :theme="activeTheme" :animationDuration="animDuration"
+            :easing="easingType">
             <template #center="{ value, percentage }">
               <div class="custom-center">
                 <div class="custom-center-value">{{ Math.round(value) }}</div>
@@ -194,24 +137,13 @@
       <div class="gauge-grid two-col">
         <div class="gauge-card">
           <h3 class="card-label">With Alerts (80 / 140)</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :alerts="alerts"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" :alerts="alerts" :theme="activeTheme"
+            :animationDuration="animDuration" :easing="easingType" />
         </div>
         <div class="gauge-card">
           <h3 class="card-label">Neon Theme</h3>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            theme="neon"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" theme="neon" :animationDuration="animDuration"
+            :easing="easingType" />
         </div>
       </div>
     </section>
@@ -230,13 +162,8 @@
         <div class="gauge-card">
           <h3 class="card-label">Dual Needles</h3>
           <p class="card-desc">Multiple needles with independent colors and labels</p>
-          <VueSpeedometer
-            :max="180"
-            :needles="dualNeedles"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :max="180" :needles="dualNeedles" :theme="activeTheme" :animationDuration="animDuration"
+            :easing="easingType" />
           <div class="card-controls">
             <div class="mini-control">
               <span class="mini-label" style="color: #3b82f6">● Current</span>
@@ -255,18 +182,9 @@
         <div class="gauge-card">
           <h3 class="card-label">Logarithmic Scale</h3>
           <p class="card-desc">Log₁₀ scale with custom tick formatter</p>
-          <VueSpeedometer
-            :value="logValue"
-            :min="1"
-            :max="10000"
-            :logarithmic="true"
-            :formatTick="formatLogTick"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-            :majorTicks="4"
-            :formatValue="formatLogValue"
-          />
+          <VueSpeedometer :value="logValue" :min="1" :max="10000" :logarithmic="true" :formatTick="formatLogTick"
+            :theme="activeTheme" :animationDuration="animDuration" :easing="easingType" :majorTicks="4"
+            :formatValue="formatLogValue" />
           <div class="card-controls">
             <input type="range" :min="1" :max="10000" v-model.number="logValue" class="slider" />
             <span class="control-value">{{ logValue.toLocaleString() }}</span>
@@ -277,31 +195,17 @@
         <div class="gauge-card">
           <h3 class="card-label">Concentric Arcs</h3>
           <p class="card-desc">Secondary metric rings inside/outside the main arc</p>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :concentricArcs="concentricArcsData"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" :concentricArcs="concentricArcsData" :theme="activeTheme"
+            :animationDuration="animDuration" :easing="easingType" />
         </div>
 
         <!-- Format Tick -->
         <div class="gauge-card">
           <h3 class="card-label">Custom Tick Format</h3>
           <p class="card-desc">Format tick labels as currency, RPM, etc.</p>
-          <VueSpeedometer
-            :value="currencyValue"
-            :min="0"
-            :max="10000"
-            :formatTick="formatCurrency"
-            :formatValue="formatCurrencyValue"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-            :majorTicks="5"
-          />
+          <VueSpeedometer :value="currencyValue" :min="0" :max="10000" :formatTick="formatCurrency"
+            :formatValue="formatCurrencyValue" :theme="activeTheme" :animationDuration="animDuration"
+            :easing="easingType" :majorTicks="5" />
           <div class="card-controls">
             <input type="range" :min="0" :max="10000" v-model.number="currencyValue" class="slider" />
             <span class="control-value">${{ currencyValue.toLocaleString() }}</span>
@@ -312,29 +216,16 @@
         <div class="gauge-card gauge-card-wide">
           <h3 class="card-label">Value History Sparkline</h3>
           <p class="card-desc">Trailing sparkline showing recent value history</p>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :valueHistory="valueHistoryData"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" :valueHistory="valueHistoryData" :theme="activeTheme"
+            :animationDuration="animDuration" :easing="easingType" />
         </div>
 
         <!-- Tooltips -->
         <div class="gauge-card gauge-card-wide">
           <h3 class="card-label">Segment Tooltips</h3>
           <p class="card-desc">Hover over segments to see the value range</p>
-          <VueSpeedometer
-            :value="gaugeValue"
-            :max="180"
-            :segments="customSegments"
-            :tooltips="true"
-            :theme="activeTheme"
-            :animationDuration="animDuration"
-            :easing="easingType"
-          />
+          <VueSpeedometer :value="gaugeValue" :max="180" :segments="customSegments" :tooltips="true"
+            :theme="activeTheme" :animationDuration="animDuration" :easing="easingType" />
         </div>
       </div>
     </section>
@@ -372,11 +263,18 @@
         <p class="developer-role">Creator & Maintainer</p>
         <div class="developer-links">
           <a href="mailto:navnitrai5389@gmail.com" class="dev-link dev-link-email">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2" />
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+            </svg>
             <span>navnitrai5389@gmail.com</span>
           </a>
           <a href="https://github.com/Navnit73/" target="_blank" rel="noopener" class="dev-link dev-link-github">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
+            </svg>
             <span>github.com/Navnit73</span>
           </a>
         </div>
@@ -490,10 +388,10 @@ function randomize() {
 }
 
 function exportPng() {
-  ;(semiRef.value as any)?.exportAs('png')
+  ; (semiRef.value as any)?.exportAs('png')
 }
 function exportSvg() {
-  ;(semiRef.value as any)?.exportAs('svg')
+  ; (semiRef.value as any)?.exportAs('svg')
 }
 </script>
 
@@ -528,6 +426,7 @@ body {
   background: #f1f5f9;
   color: #1e293b;
 }
+
 .demo-app.theme-minimal {
   background: #f8fafc;
   color: #374151;
@@ -540,21 +439,25 @@ body {
   text-align: center;
   overflow: hidden;
 }
+
 .hero-bg {
   position: absolute;
   inset: 0;
   background: linear-gradient(135deg, #667eea44 0%, #764ba244 100%);
   z-index: 0;
 }
+
 .hero-content {
   position: relative;
   z-index: 1;
   max-width: 720px;
   margin: 0 auto;
 }
+
 .hero-icon {
   font-size: 1.5em;
 }
+
 .hero-title {
   font-size: 2.5rem;
   font-weight: 700;
@@ -565,18 +468,21 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
 .hero-subtitle {
   font-size: 1.1rem;
   opacity: 0.8;
   margin-bottom: 20px;
   line-height: 1.5;
 }
+
 .hero-badges {
   display: flex;
   gap: 8px;
   justify-content: center;
   flex-wrap: wrap;
 }
+
 .badge {
   padding: 4px 14px;
   border-radius: 100px;
@@ -586,16 +492,26 @@ body {
   color: #a5b4fc;
   border: 1px solid rgba(102, 126, 234, 0.25);
 }
+
 .badge-new {
   background: linear-gradient(135deg, #10b981, #059669);
   color: #fff;
   border-color: #10b981;
   animation: badge-pulse 2s ease-in-out infinite;
 }
+
 @keyframes badge-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
-  50% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
 }
+
 .theme-light .badge,
 .theme-material .badge {
   background: rgba(102, 126, 234, 0.1);
@@ -615,6 +531,7 @@ body {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
+
 .theme-light .controls-bar,
 .theme-material .controls-bar,
 .theme-minimal .controls-bar {
@@ -627,6 +544,7 @@ body {
   align-items: center;
   gap: 10px;
 }
+
 .control-label {
   font-size: 0.82rem;
   font-weight: 600;
@@ -634,6 +552,7 @@ body {
   letter-spacing: 0.5px;
   opacity: 0.6;
 }
+
 .control-value {
   font-size: 1.1rem;
   font-weight: 700;
@@ -641,7 +560,10 @@ body {
   text-align: center;
   color: #a5b4fc;
 }
-.theme-light .control-value { color: #4f46e5; }
+
+.theme-light .control-value {
+  color: #4f46e5;
+}
 
 .slider {
   width: 180px;
@@ -652,15 +574,16 @@ body {
 .select-input {
   padding: 6px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   color: inherit;
   font-size: 0.85rem;
   cursor: pointer;
 }
+
 .theme-light .select-input,
 .theme-material .select-input {
-  border-color: rgba(0,0,0,0.15);
+  border-color: rgba(0, 0, 0, 0.15);
   background: #fff;
 }
 
@@ -668,10 +591,11 @@ body {
   display: flex;
   gap: 4px;
 }
+
 .theme-pill {
   padding: 5px 12px;
   border-radius: 100px;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   background: transparent;
   color: inherit;
   font-size: 0.78rem;
@@ -680,15 +604,20 @@ body {
   text-transform: capitalize;
   transition: all 0.2s;
 }
+
 .theme-pill:hover {
   background: rgba(102, 126, 234, 0.15);
 }
+
 .theme-pill.active {
   background: #667eea;
   color: #fff;
   border-color: #667eea;
 }
-.theme-light .theme-pill { border-color: rgba(0,0,0,0.15); }
+
+.theme-light .theme-pill {
+  border-color: rgba(0, 0, 0, 0.15);
+}
 
 .btn {
   padding: 8px 18px;
@@ -699,24 +628,34 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
+
 .btn-primary {
   background: linear-gradient(135deg, #667eea, #764ba2);
   color: #fff;
 }
+
 .btn-primary:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
 }
+
 .btn-outline {
   background: transparent;
   color: inherit;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
+
 .btn-outline:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
-.theme-light .btn-outline { border-color: rgba(0,0,0,0.15); }
-.theme-light .btn-outline:hover { background: rgba(0,0,0,0.03); }
+
+.theme-light .btn-outline {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.theme-light .btn-outline:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
 
 /* ---- Sections ---- */
 .section {
@@ -724,6 +663,7 @@ body {
   margin: 0 auto;
   padding: 40px 24px 0;
 }
+
 .section-title {
   font-size: 1.4rem;
   font-weight: 700;
@@ -736,6 +676,7 @@ body {
   position: relative;
   margin-top: 20px;
 }
+
 .v2-section::before {
   content: '';
   position: absolute;
@@ -748,13 +689,16 @@ body {
   pointer-events: none;
   z-index: 0;
 }
-.v2-section > * {
+
+.v2-section>* {
   position: relative;
   z-index: 1;
 }
+
 .v2-badge-row {
   margin-bottom: 8px;
 }
+
 .v2-badge {
   display: inline-block;
   padding: 4px 14px;
@@ -771,8 +715,14 @@ body {
   display: grid;
   gap: 24px;
 }
-.three-col { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-.two-col { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+
+.three-col {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.two-col {
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
 
 .gauge-card {
   background: rgba(255, 255, 255, 0.03);
@@ -784,27 +734,32 @@ body {
   align-items: center;
   transition: background 0.3s, border-color 0.3s;
 }
+
 .gauge-card:hover {
   background: rgba(255, 255, 255, 0.05);
   border-color: rgba(102, 126, 234, 0.2);
 }
+
 .gauge-card-wide {
   grid-column: span 2;
 }
+
 .theme-light .gauge-card,
 .theme-material .gauge-card {
   background: #fff;
   border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
+
 .theme-light .gauge-card:hover,
 .theme-material .gauge-card:hover {
   border-color: rgba(79, 70, 229, 0.2);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
+
 .theme-minimal .gauge-card {
   background: transparent;
-  border-color: rgba(0,0,0,0.06);
+  border-color: rgba(0, 0, 0, 0.06);
 }
 
 .card-label {
@@ -815,12 +770,14 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+
 .card-desc {
   font-size: 0.78rem;
   opacity: 0.5;
   margin-bottom: 12px;
   text-align: center;
 }
+
 .card-controls {
   width: 100%;
   margin-top: 12px;
@@ -828,17 +785,20 @@ body {
   flex-direction: column;
   gap: 8px;
 }
+
 .mini-control {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.82rem;
 }
+
 .mini-label {
   font-weight: 600;
   min-width: 80px;
   font-size: 0.78rem;
 }
+
 .mini-val {
   font-weight: 700;
   min-width: 30px;
@@ -846,6 +806,7 @@ body {
   font-size: 0.85rem;
   color: #a5b4fc;
 }
+
 .slider-sm {
   flex: 1;
   accent-color: #667eea;
@@ -859,17 +820,20 @@ body {
   align-items: center;
   gap: 2px;
 }
+
 .custom-center-value {
   font-size: 28px;
   font-weight: 700;
   line-height: 1;
 }
+
 .custom-center-label {
   font-size: 12px;
   opacity: 0.6;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
 .custom-center-pct {
   font-size: 11px;
   opacity: 0.4;
@@ -885,7 +849,7 @@ body {
 /* ---- Event Log ---- */
 .event-log {
   background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   padding: 16px;
   max-height: 220px;
@@ -893,25 +857,33 @@ body {
   font-family: 'Courier New', monospace;
   font-size: 0.82rem;
 }
+
 .theme-light .event-log,
 .theme-material .event-log {
   background: #f8fafc;
-  border-color: rgba(0,0,0,0.08);
+  border-color: rgba(0, 0, 0, 0.08);
 }
+
 .log-entry {
   padding: 4px 0;
   display: flex;
   gap: 10px;
 }
+
 .log-type {
   color: #a5b4fc;
   font-weight: 600;
   min-width: 120px;
 }
-.theme-light .log-type { color: #4f46e5; }
+
+.theme-light .log-type {
+  color: #4f46e5;
+}
+
 .log-msg {
   opacity: 0.7;
 }
+
 .log-empty {
   opacity: 0.4;
   text-align: center;
@@ -935,7 +907,7 @@ body {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 30% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 70% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 70% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -951,7 +923,7 @@ body {
 .theme-material .developer-section::before,
 .theme-minimal .developer-section::before {
   background: radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
-              radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
 }
 
 .theme-light .developer-name,
@@ -988,8 +960,13 @@ body {
 }
 
 @keyframes avatar-glow {
-  from { box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3); }
-  to { box-shadow: 0 8px 40px rgba(118, 75, 162, 0.4); }
+  from {
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  }
+
+  to {
+    box-shadow: 0 8px 40px rgba(118, 75, 162, 0.4);
+  }
 }
 
 .avatar-initial {
@@ -1327,20 +1304,25 @@ body {
     margin-top: 24px;
     border-radius: 12px;
   }
+
   .developer-name {
     font-size: 1.4rem;
   }
+
   .developer-avatar {
     width: 64px;
     height: 64px;
   }
+
   .avatar-initial {
     font-size: 1.5rem;
   }
+
   .developer-links {
     flex-direction: column;
     width: 100%;
   }
+
   .dev-link {
     width: 100%;
     justify-content: center;
